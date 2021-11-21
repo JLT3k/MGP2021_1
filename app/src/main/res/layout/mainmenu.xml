@@ -2,33 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="@drawable/backgnd">
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_width="114dp"
+        android:layout_height="117dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="140dp"
-        android:layout_marginRight="291dp"
+        android:layout_marginTop="451dp"
+        android:layout_marginRight="146dp"
         android:background="@drawable/button"
         android:text="Start"
         android:textColor="#bdfcf2"
         android:textSize="18dp"></Button>
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_back"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="221dp"
-        android:layout_marginRight="291dp"
+        android:layout_marginTop="595dp"
+        android:layout_marginRight="128dp"
         android:background="@drawable/button"
         android:text="Back"
         android:textColor="#bdfcf2"
-        android:textSize="18dp"></Button>
+        android:textSize="18dp"></Button>-->
 
 </RelativeLayout>

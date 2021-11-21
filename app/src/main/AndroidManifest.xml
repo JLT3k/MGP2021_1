@@ -12,7 +12,7 @@
 
         <activity
             android:name = ".Splashpage"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <intent-filter>
@@ -24,7 +24,7 @@
 
         <activity
             android:name = ".Mainmenu"
-            android:screenOrientation="landscape"
+            android:screenOrientation="portrait"
             android:exported="true">
 
             <intent-filter>

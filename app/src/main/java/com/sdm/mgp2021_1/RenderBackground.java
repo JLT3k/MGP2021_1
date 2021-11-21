@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class RenderBackground implements EntityBase{
@@ -13,8 +14,9 @@ public class RenderBackground implements EntityBase{
     private Bitmap bmp = null;
     private Bitmap scaledbmp = null; // To scale bmp according to width and height
     private SurfaceView view = null;
-    private float xPos, yPos;
+    private float xPos, yPos, xPos2, yPos2;
     private int screenWidth, screenHeight;
+    MotionEvent event;
 
     private Bitmap ship = null;
 
@@ -30,7 +32,7 @@ public class RenderBackground implements EntityBase{
 
     @Override
     public void Init(SurfaceView _view){
-        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamescene);
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamepage);
 
         // Finding the screen width & height to allow the images to scale according to it.
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
@@ -44,11 +46,13 @@ public class RenderBackground implements EntityBase{
 
     @Override
     public void Update(float _dt){
-        xPos -= _dt * 500; // How fast you want to move the screen
+        //xPos -= _dt * 500; // How fast you want to move the screen
 
-        if (xPos < -screenWidth){
-            xPos = 0;
-        }
+        //if (xPos < -screenWidth){
+            //xPos = 0;
+        //}
+        xPos2 = TouchManager.Instance.GetPosX();
+        yPos2 = TouchManager.Instance.GetPosY();
     }
 
     @Override
@@ -57,8 +61,9 @@ public class RenderBackground implements EntityBase{
         _canvas.drawBitmap(scaledbmp, xPos + screenWidth, yPos, null); // 2nd image
 
         Matrix transform = new Matrix();
-        transform.postRotate(30);
-        _canvas.drawBitmap(ship,transform,null);
+        if (TouchManager.Instance.HasTouch()){
+            transform.setTranslate(xPos2, yPos2);
+        }
         _canvas.drawBitmap(ship,transform,null);
     }
 

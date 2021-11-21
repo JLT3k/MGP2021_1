@@ -46,21 +46,6 @@ public class EntityManager {
             }
         }
 
-        for (EntityBase currEntity : entityList)
-        {
-            // Lets check if is init, initialize if not
-            if (!currEntity.IsInit())
-                currEntity.Init(view);
-
-            currEntity.Update(_dt);
-
-            // Check if need to clean up
-            if (currEntity.IsDone()) {
-                // Done! Time to add to the removal list
-                removalList.add(currEntity);
-            }
-        }
-
         // Remove all entities that are done
         for (EntityBase currEntity : removalList) {
             entityList.remove(currEntity);

@@ -17,7 +17,6 @@ public class StateManager {
     private HashMap<String, StateBase> stateMap = new HashMap<String, StateBase>();
     private StateBase currState = null;
     private StateBase nextState = null;
-
     private SurfaceView view = null;
 
     // This is the protected constructor for singleton

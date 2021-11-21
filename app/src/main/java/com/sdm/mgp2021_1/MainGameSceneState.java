@@ -3,6 +3,7 @@ package com.sdm.mgp2021_1;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.view.SurfaceView;
 
@@ -41,11 +42,10 @@ public class MainGameSceneState implements StateBase {
     public void Update(float _dt) {
 
         EntityManager.Instance.Update(_dt);
-
         if (TouchManager.Instance.IsDown()) {
 			
             //Example of touch on screen in the main game to trigger back to Main menu
-            StateManager.Instance.ChangeState("Mainmenu");
+            // StateManager.Instance.ChangeState("Mainmenu");
         }
     }
 }

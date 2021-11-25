@@ -13,10 +13,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="451dp"
         android:layout_marginRight="146dp"
-        android:background="@drawable/button"
-        android:text="Start"
+        android:background="@android:color/transparent">
+        <!--android:text="Start"
         android:textColor="#bdfcf2"
-        android:textSize="18dp"></Button>
+        android:textSize="18dp">--></Button>
 
     <!--<Button
         android:id="@+id/btn_back"

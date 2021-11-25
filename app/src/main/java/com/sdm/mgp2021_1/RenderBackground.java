@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 
@@ -18,7 +19,7 @@ public class RenderBackground implements EntityBase{
     private int screenWidth, screenHeight;
     MotionEvent event;
 
-    private Bitmap ship = null;
+    private Bitmap ball = null;
 
     @Override
     public boolean IsDone(){
@@ -41,7 +42,7 @@ public class RenderBackground implements EntityBase{
 
         scaledbmp = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight, true);
 
-        ship = BitmapFactory.decodeResource(_view.getResources(),R.drawable.ship2_1);
+        ball = BitmapFactory.decodeResource(_view.getResources(),R.drawable.whitecircle);
     }
 
     @Override
@@ -58,13 +59,16 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Render(Canvas _canvas){
         _canvas.drawBitmap(scaledbmp, xPos, yPos, null); //1st image
-        _canvas.drawBitmap(scaledbmp, xPos + screenWidth, yPos, null); // 2nd image
+        //_canvas.drawBitmap(scaledbmp, xPos + screenWidth, yPos, null); // 2nd image
 
         Matrix transform = new Matrix();
+        transform.preTranslate(488.f, 144.f);
         if (TouchManager.Instance.HasTouch()){
             transform.setTranslate(xPos2, yPos2);
+            System.out.println(xPos2);
+            System.out.println(yPos2);
         }
-        _canvas.drawBitmap(ship,transform,null);
+        _canvas.drawBitmap(ball,transform,null);
     }
 
     @Override

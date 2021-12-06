@@ -63,11 +63,11 @@ public class RenderBackground implements EntityBase{
 
         Matrix transform = new Matrix();
         transform.preTranslate(488.f, 144.f);
-        if (TouchManager.Instance.HasTouch()){
-            transform.setTranslate(xPos2, yPos2);
-            System.out.println(xPos2);
-            System.out.println(yPos2);
-        }
+//        if (TouchManager.Instance.HasTouch()){
+//            transform.setTranslate(xPos2, yPos2);
+//            System.out.println(xPos2);
+//            System.out.println(yPos2);
+//        }
         _canvas.drawBitmap(ball,transform,null);
     }
 

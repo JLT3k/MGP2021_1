@@ -23,9 +23,9 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
         Ship.Create();
-        SmurfEntity.Create();
-        StarEntity.Create();
-        PausebuttonEntity.Create();
+        //SmurfEntity.Create();
+        //StarEntity.Create();
+        //PausebuttonEntity.Create();
 
         // Player.Create();
         // NPC.Create();

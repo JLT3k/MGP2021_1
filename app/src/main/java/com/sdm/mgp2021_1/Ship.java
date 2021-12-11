@@ -19,10 +19,7 @@ public class Ship implements EntityBase {
     DisplayMetrics metrics;
     // In any entity class, under public void Init(SurfaceView _view) {}
 
-    // Use for allowing entity to have a lifespan
-    private float lifetime;
-
-
+    private Bitmap ball = null;
 
     //check if anything to do with entity (use for pause)
     @Override
@@ -44,42 +41,33 @@ public class Ship implements EntityBase {
         ScreenWidth = metrics.widthPixels / 5;
         scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
 
-        // We can define how we want the player to react or if it is enemy or obstacles, how it is going to appear as.
-        Random ranGen = new Random();
-        xPos = ranGen.nextFloat() * _view.getWidth();
-        yPos = ranGen.nextFloat() * _view.getHeight();
-
-        lifetime = 30.0f;
+        ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
     }
 
     @Override
     public void Update(float _dt) {
-        // tfx.preRotate(20 * _dt, metrics.widthPixels / 10, metrics.heightPixels / 10);
-        // tfx.postTranslate(10 * _dt, 10 * _dt);
-
-        lifetime -= _dt;
-        if (lifetime < 0.0f ) {
-            SetIsDone(true);
-        }
-
-        if(TouchManager.Instance.IsDown()){
-
+        xPos = TouchManager.Instance.GetPosX();
+        yPos = TouchManager.Instance.GetPosY();
+ /*       if(TouchManager.Instance.IsDown()){
             // Check collision
             float imgRadius = bmp.getHeight() * 0.5f;
             if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos,yPos, imgRadius))
             {
                 SetIsDone(true);
             }
-
-        }
+        }*/
     }
 
     @Override
     public void Render(Canvas _canvas) {
-       /* _canvas.drawBitmap(bmp, xPos, yPos, null);
         Matrix transform = new Matrix();
-        transform.postScale((0.5f + Math.abs((float)Math.sin(lifetime))),(0.5f + Math.abs((float)Math.sin(lifetime))) );
-        _canvas.drawBitmap(bmp, transform, null);*/
+        transform.preTranslate(488.f, 144.f);
+        if (TouchManager.Instance.HasTouch()){
+            transform.setTranslate(xPos, yPos);
+           System.out.println(xPos);
+           System.out.println(yPos);
+        }
+        _canvas.drawBitmap(ball,transform,null);
     }
 
     @Override

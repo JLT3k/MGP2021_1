@@ -15,7 +15,7 @@ public class RenderBackground implements EntityBase{
     private Bitmap bmp = null;
     private Bitmap scaledbmp = null; // To scale bmp according to width and height
     private SurfaceView view = null;
-    private float xPos, yPos, xPos2, yPos2;
+    private float xPos, yPos;
     private int screenWidth, screenHeight;
     MotionEvent event;
 
@@ -41,19 +41,11 @@ public class RenderBackground implements EntityBase{
         screenHeight = metrics.heightPixels;
 
         scaledbmp = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight, true);
-
-        ball = BitmapFactory.decodeResource(_view.getResources(),R.drawable.whitecircle);
     }
 
     @Override
     public void Update(float _dt){
-        //xPos -= _dt * 500; // How fast you want to move the screen
 
-        //if (xPos < -screenWidth){
-            //xPos = 0;
-        //}
-        xPos2 = TouchManager.Instance.GetPosX();
-        yPos2 = TouchManager.Instance.GetPosY();
     }
 
     @Override
@@ -61,14 +53,6 @@ public class RenderBackground implements EntityBase{
         _canvas.drawBitmap(scaledbmp, xPos, yPos, null); //1st image
         //_canvas.drawBitmap(scaledbmp, xPos + screenWidth, yPos, null); // 2nd image
 
-        Matrix transform = new Matrix();
-        transform.preTranslate(488.f, 144.f);
-//        if (TouchManager.Instance.HasTouch()){
-//            transform.setTranslate(xPos2, yPos2);
-//            System.out.println(xPos2);
-//            System.out.println(yPos2);
-//        }
-        _canvas.drawBitmap(ball,transform,null);
     }
 
     @Override

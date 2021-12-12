@@ -25,7 +25,7 @@ public class MainGameSceneState implements StateBase {
         Ship.Create();
         //SmurfEntity.Create();
         //StarEntity.Create();
-        //PausebuttonEntity.Create();
+        PausebuttonEntity.Create();
 
         // Player.Create();
         // NPC.Create();

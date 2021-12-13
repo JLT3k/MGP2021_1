@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/backgnd">
+    android:background="@drawable/background">
 
     <Button
         android:id="@+id/btn_start"
@@ -11,24 +11,25 @@
         android:layout_height="117dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="451dp"
-        android:layout_marginRight="146dp"
-        android:background="@android:color/transparent">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="481dp"
+        android:layout_marginRight="148dp"
+        android:background="@drawable/playicon">
         <!--android:text="Start"
         android:textColor="#bdfcf2"
         android:textSize="18dp">--></Button>
 
-    <!--<Button
-        android:id="@+id/btn_back"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
+    <ImageView
+        android:id="@+id/menutitle"
+        android:layout_width="match_parent"
+        android:layout_height="137dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="595dp"
-        android:layout_marginRight="128dp"
-        android:background="@drawable/button"
+        android:layout_marginTop="101dp"
+        android:layout_marginRight="0dp"
+        android:background="@drawable/title"
         android:text="Back"
         android:textColor="#bdfcf2"
-        android:textSize="18dp"></Button>-->
+        android:textSize="18dp"></ImageView>
 
 </RelativeLayout>

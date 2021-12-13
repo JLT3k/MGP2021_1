@@ -12,7 +12,6 @@ public class GameSystem {
     // Game stuff
     private boolean isPaused = false;
     Ball ball = new Ball();
-    ShapeEntity Shape1 = new ShapeEntity();
     ShapeEntity[] Shape = new ShapeEntity[20];
     private int points;
 
@@ -20,25 +19,23 @@ public class GameSystem {
     // Singleton Pattern : Blocks others from creating
     private GameSystem()
     {
-       /* for (int i = 0; i < 20; ++i){
+        for (int i = 0; i < 20; ++i){
             Shape[i] = new ShapeEntity();
-        }*/
+        }
     }
 
     public void Update(float _deltaTime)
     {
         ball.Update(_deltaTime);
-        Shape1.Update(_deltaTime);
-       /* for (int i = 0; i < 20; ++i)
-            Shape[i].Update(_deltaTime);*/
+        for (int i = 0; i < 20; ++i)
+            Shape[i].Update(_deltaTime);
     }
 
     public void Init(SurfaceView _view)
     {
         ball.Init(_view);
-        Shape1.Init(_view);
-       /* for (int i = 0; i < 20; ++i)
-            Shape[i].Init(_view);*/
+        for (int i = 0; i < 20; ++i)
+            Shape[i].Init(_view);
         // We will add all of our states into the state manager here!
         StateManager.Instance.AddState(new Mainmenu());
         StateManager.Instance.AddState(new MainGameSceneState());

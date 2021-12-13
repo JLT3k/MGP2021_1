@@ -31,7 +31,7 @@ public class Ball implements EntityBase, Collidable {
     @Override
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
-        acceleration = 1;
+        acceleration = 0;
         xPos = 488.f;
         yPos = 144.f;
         xPosPrev = 488.f;
@@ -41,11 +41,13 @@ public class Ball implements EntityBase, Collidable {
 
     @Override
     public void Update(float _dt) {
-        if (TouchManager.Instance.HasTouch() && !shot && !move && !turn){
-            xTouchPos = TouchManager.Instance.GetPosX();
-            yTouchPos = TouchManager.Instance.GetPosY();
-            shot = true;
-            System.out.print("Shot!");
+        if (!GameSystem.Instance.GetIsPaused()) {
+            if (TouchManager.Instance.HasTouch() && !shot && !move && !turn) {
+                xTouchPos = TouchManager.Instance.GetPosX();
+                yTouchPos = TouchManager.Instance.GetPosY();
+                shot = true;
+                System.out.print("Shot!");
+            }
         }
         if (shot){
             if (xPos < xTouchPos)
@@ -59,6 +61,7 @@ public class Ball implements EntityBase, Collidable {
         }
         if (move) {
             yPos += _dt * (yTouchPos - yPosPrev);
+            yPos -= _dt * acceleration;
             if (shotRight) {
                 if (!flipped)
                     xPos += _dt * 500;
@@ -85,13 +88,15 @@ public class Ball implements EntityBase, Collidable {
             turn = true;
         }
 
-        if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.Shape1.GetPosY(), GameSystem.Instance.Shape1.GetRadius())){
-            flipped = false;
-            xPos = 488.f;
-            yPos = 144.f;
-            acceleration = 0;
-            move = false;
-            turn = true;
+        for (int i = 0; i < 20; ++i) {
+            if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.Shape[i].GetPosX(), GameSystem.Instance.Shape[i].GetPosY(), GameSystem.Instance.Shape[i].GetRadius())) {
+                flipped = false;
+                xPos = 488.f;
+                yPos = 144.f;
+                acceleration = 500;
+                move = false;
+                turn = true;
+            }
         }
 
     }

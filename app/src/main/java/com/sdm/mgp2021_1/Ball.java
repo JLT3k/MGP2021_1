@@ -7,18 +7,14 @@ import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-import java.util.Random;
-
-public class Ship implements EntityBase {
-    private boolean isDone = false;
-    private Bitmap bmp = null, scaledbmp = null;
+public class Ball implements EntityBase {
+    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false;
     int ScreenWidth, ScreenHeight;
-    private float xPos, yPos, offset;
+    private float xPos, yPos, xTouchPos, yTouchPos, acceleration;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
     // In any entity class, under public void Init(SurfaceView _view) {}
-
     private Bitmap ball = null;
 
     //check if anything to do with entity (use for pause)
@@ -34,20 +30,59 @@ public class Ship implements EntityBase {
 
     @Override
     public void Init(SurfaceView _view) {
-        bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.ship2_1);
-        //Find the surfaceview size or screensize
-        metrics = _view.getResources().getDisplayMetrics();
-        ScreenHeight = metrics.heightPixels / 5;
-        ScreenWidth = metrics.widthPixels / 5;
-        scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
-
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
+        acceleration = 0;
+        xPos = 488.f;
+        yPos = 144.f;
     }
 
     @Override
     public void Update(float _dt) {
-        xPos = TouchManager.Instance.GetPosX();
-        yPos = TouchManager.Instance.GetPosY();
+
+        if (TouchManager.Instance.HasTouch()){
+            xTouchPos = TouchManager.Instance.GetPosX();
+            yTouchPos = TouchManager.Instance.GetPosY();
+            shot = true;
+        }
+        if (shot){
+            if (xPos < xTouchPos)
+                shotRight = true;
+
+            if (xPos > xTouchPos)
+                shotRight = false;
+
+            shot = false;
+            move = true;
+        }
+        if (move) {
+            yPos += _dt * acceleration;
+            if (shotRight) {
+                if (!flipped)
+                    xPos += _dt * acceleration;
+                else
+                    xPos -= _dt * acceleration;
+            } else {
+                if (!flipped)
+                    xPos -= _dt * acceleration;
+                else
+                    xPos += _dt * acceleration;
+            }
+        }
+
+        if (acceleration >= 1000) {
+            acceleration = 1000;
+        }
+        else {
+            acceleration += _dt * 200;
+        }
+        if (xPos >= 1006 || xPos <= 0) {
+            flipped = !flipped;
+            System.out.println(flipped);
+        }
+        if (yPos > 2000 || yPos < -100) {
+            SetIsDone(true);
+        }
+
  /*       if(TouchManager.Instance.IsDown()){
             // Check collision
             float imgRadius = bmp.getHeight() * 0.5f;
@@ -61,23 +96,18 @@ public class Ship implements EntityBase {
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
-        transform.preTranslate(488.f, 144.f);
-        if (TouchManager.Instance.HasTouch()){
-            transform.setTranslate(xPos, yPos);
-           System.out.println(xPos);
-           System.out.println(yPos);
-        }
+        transform.setTranslate(xPos, yPos);
         _canvas.drawBitmap(ball,transform,null);
     }
 
     @Override
     public boolean IsInit() {
-        return bmp != null;
+        return ball != null;
     }
 
     @Override
     public int GetRenderLayer() {
-        return LayerConstants.SHIP_LAYER;
+        return LayerConstants.BALL_LAYER;
     }
 
     @Override
@@ -90,9 +120,10 @@ public class Ship implements EntityBase {
         return ENTITY_TYPE.ENT_DEFAULT;
     }
 
-    public static Ship Create() {
-        Ship result = new Ship();
+    public static Ball Create() {
+        Ball result = new Ball();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
+
 }

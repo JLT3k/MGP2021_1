@@ -10,9 +10,10 @@ public class LayerConstants {
     public final static int RENDERTEXT_LAYER = 1;
 
     public final static int STAR_LAYER = 2;
-    public final static int SHIP_LAYER = 3;
-    public final static int PAUSEBUTTON_LAYER = 4;
-    public final static int SMURF_LAYER = 5;
+    public final static int BALL_LAYER = 3;
+    public final static int SHAPE_LAYER = 4;
+    public final static int PAUSEBUTTON_LAYER = 5;
+    public final static int SMURF_LAYER = 6;
 
     public final static int GAMEOBJECTS_LAYER = 100;  // Example
     public final static int UI_LAYER = 1000;

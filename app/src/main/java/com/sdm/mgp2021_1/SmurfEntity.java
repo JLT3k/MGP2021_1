@@ -120,4 +120,5 @@ public class SmurfEntity implements EntityBase {
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
+
 }

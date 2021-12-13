@@ -28,6 +28,7 @@ public class RenderTextEntity implements EntityBase{
     long lastTime = 0; // Time
     long lastFPSTime = 0; // last frame time
     float fps; // use to store by FPS
+    float xPos, yPos;
 
 
     @Override
@@ -100,4 +101,5 @@ public class RenderTextEntity implements EntityBase{
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
+
 }

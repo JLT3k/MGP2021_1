@@ -8,6 +8,8 @@ import android.view.SurfaceView;
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
     private int Index = 1;
+    private int Spawned = 1;
+    private int NoOfBalls = 1;
 
     @Override
     public String GetName() {
@@ -19,8 +21,6 @@ public class MainGameSceneState implements StateBase {
     {
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
-        GameSystem.Instance.Shape[0].Create();
-        GameSystem.Instance.ball.Create();
 
         PausebuttonEntity.Create();
         PausetitleEntity.Create();
@@ -40,8 +40,10 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Render(Canvas _canvas) {
         EntityManager.Instance.Render(_canvas);
-        GameSystem.Instance.ball.Render(_canvas);
-        for (int i = 0; i < Index; ++i) {
+        for (int i = 0; i < NoOfBalls; ++i) {
+            GameSystem.Instance.ball[i].Render(_canvas);
+        }
+        for (int i = 0; i < Spawned; ++i) {
             GameSystem.Instance.Shape[i].Render(_canvas);
         }
     }
@@ -49,24 +51,34 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Update(float _dt) {
         // 3 shapes pos: 120, 540, 960
-        for (int i = 0; i < Index; ++i) {
+        for (int i = 0; i < NoOfBalls; ++i) {
+            GameSystem.Instance.ball[i].Update(_dt);
+        }
+        for (int i = 0; i < Spawned; ++i) {
             GameSystem.Instance.Shape[i].Update(_dt);
         }
-        GameSystem.Instance.ball.Update(_dt);
         EntityManager.Instance.Update(_dt);
 
-        if (GameSystem.Instance.ball.GetTurn()){
+        if (GameSystem.Instance.ball[NoOfBalls - 1].GetTurn()){
             GameSystem.Instance.Shape[Index].Create();
-            for (int i = 0; i < Index; ++i) {
+            for (int i = 0; i < Spawned; ++i) {
                 GameSystem.Instance.Shape[i].SetAnimation(true);
             }
-            GameSystem.Instance.ball.SetTurn(false);
-            Index++;
+            for (int i = 0; i < NoOfBalls; ++i) {
+                GameSystem.Instance.ball[i].SetTurn(false);
+            }
+            Spawned++;
+            Index = Spawned;
         }
 
-        if (TouchManager.Instance.IsDown()) {
-            //Example of touch on screen in the main game to trigger back to Main menu
-            // StateManager.Instance.ChangeState("Mainmenu");
+        if (Spawned >= 20) {
+            Spawned = 20;
+        }
+
+        for (int i = 0; i < Spawned; ++i) {
+            if (GameSystem.Instance.Shape[i].IsDone()) {
+                Index = i;
+            }
         }
     }
 }

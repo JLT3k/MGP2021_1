@@ -10,11 +10,11 @@ import android.view.SurfaceView;
 import java.util.Random;
 
 public class ShapeEntity implements EntityBase, Collidable {
-    private boolean isDone = false, animation = true;
+    private boolean isDone = false, animation = true, respawn = false;
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    private float xPos = new Random().nextInt(840) + 120;
+    private float xPos = new Random().nextInt(800) + 120;
     private float yPos = 1920, yPosPrev = 1785;
     private float offset, imgRadius, rotation;
     private SurfaceView view = null;
@@ -89,12 +89,7 @@ public class ShapeEntity implements EntityBase, Collidable {
     @Override
     public void Init(SurfaceView _view) {
         shape_type = new Random().nextInt(3);
-        health = new Random().nextInt(30) + 1;
-        //Find the surfaceview size or screensize
-      /*  metrics = _view.getResources().getDisplayMetrics();
-        ScreenHeight = metrics.heightPixels / 5;
-        ScreenWidth = metrics.widthPixels / 5;
-        scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);*/
+        health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         InitShapes(_view);
     }
@@ -111,17 +106,31 @@ public class ShapeEntity implements EntityBase, Collidable {
             }
         }
         else{
-            yPosPrev = yPos - 150;
+            yPosPrev = yPos - 180;
         }
 
-        if (health <= 0){
+        if (health <= 0 && !IsDone()){
+            GameSystem.Instance.AddPoint();
             SetIsDone(true);
         }
         rotation += _dt * 10;
 
-        if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.ball.GetPosY(), GameSystem.Instance.ball.GetRadius())){
-            health--;
+        for (int i = 0; i < 5; ++i) {
+            if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball[i].GetPosX(), GameSystem.Instance.ball[i].GetPosY(), GameSystem.Instance.ball[i].GetRadius())) {
+                health--;
+                GameSystem.Instance.ball[i].Reset();
+            }
         }
+
+        if (IsDone()) {
+            xPos = 9999;
+            yPos = 9999;
+        }
+        else if (xPos == 9999){
+            respawn = true;
+        }
+        Respawn();
+
 
     }
 
@@ -129,10 +138,20 @@ public class ShapeEntity implements EntityBase, Collidable {
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
         transform.setTranslate(xPos, yPos);
-//        if (shape_type == 1 || shape_type == 2) {
-//            transform.setRotate(rotation);
-//        }
         renderShapes(_canvas, transform);
+    }
+
+    public void Respawn()
+    {
+        if (respawn)
+        {
+            xPos = new Random().nextInt(800) + 120;
+            yPos = 1920;
+            yPosPrev = 1785;
+            shape_type = new Random().nextInt(3);
+            health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
+            respawn = false;
+        }
     }
 
     public void renderShapes(Canvas _canvas, Matrix transform)
@@ -230,7 +249,7 @@ public class ShapeEntity implements EntityBase, Collidable {
 
     @Override
     public float GetRadius() {
-        return yellowCircle.getWidth();
+        return yellowCircle.getHeight() * 0.5f;
     }
 
     public void SetAnimation(boolean animation) {

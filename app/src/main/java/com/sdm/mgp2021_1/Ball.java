@@ -88,17 +88,16 @@ public class Ball implements EntityBase, Collidable {
             turn = true;
         }
 
-        for (int i = 0; i < 20; ++i) {
-            if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.Shape[i].GetPosX(), GameSystem.Instance.Shape[i].GetPosY(), GameSystem.Instance.Shape[i].GetRadius())) {
-                flipped = false;
-                xPos = 488.f;
-                yPos = 144.f;
-                acceleration = 500;
-                move = false;
-                turn = true;
-            }
-        }
 
+    }
+
+    public void Reset () {
+        flipped = false;
+        xPos = 488.f;
+        yPos = 144.f;
+        acceleration = 500;
+        move = false;
+        turn = true;
     }
 
     @Override
@@ -157,7 +156,7 @@ public class Ball implements EntityBase, Collidable {
 
     @Override
     public float GetRadius() {
-        return ball.getWidth();
+        return ball.getHeight() * 0.5f;
     }
 
     @Override

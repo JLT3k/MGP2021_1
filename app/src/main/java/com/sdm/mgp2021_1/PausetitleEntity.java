@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-public class ResumebuttonEntity implements EntityBase{
+public class PausetitleEntity implements EntityBase{
 
     private boolean isDone = false;
 
@@ -40,25 +40,23 @@ public class ResumebuttonEntity implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        bmpP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.playicon);
-        bmpUP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.playicon);
+        bmpP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.pausetitle);
 
         DisplayMetrics metrics=_view.getResources().getDisplayMetrics();
         ScreenHeight = metrics.heightPixels;
         ScreenWidth = metrics.widthPixels;
 
-        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/10,ScreenHeight/20,true);
-        scaledbmpUP = Bitmap.createScaledBitmap(bmpUP,ScreenWidth/10,ScreenHeight/20,true);
+        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/2,ScreenHeight/15,true);
 
         xPos = ScreenWidth * 0.5f;
-        yPos = ScreenHeight * 0.5f;
+        yPos = ScreenHeight * 0.1f;
 
         isInit = true;
     }
 
     @Override
     public void Update(float _dt) {
-        buttonDelay += _dt;
+//        buttonDelay += _dt;
 //        if (GameSystem.Instance.GetIsPaused()) {
 //            if (TouchManager.Instance.HasTouch()) {
 //                if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
@@ -78,11 +76,7 @@ public class ResumebuttonEntity implements EntityBase{
     @Override
     public void Render(Canvas _canvas) {
         if (GameSystem.Instance.GetIsPaused()) {
-            if (Paused == false)
-                _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
-
-            else
-                _canvas.drawBitmap(scaledbmpUP, xPos - scaledbmpUP.getWidth() * 0.5f, yPos - scaledbmpUP.getHeight() * 0.5f, null);
+            _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
         }
     }
 
@@ -103,11 +97,11 @@ public class ResumebuttonEntity implements EntityBase{
 
     @Override
     public ENTITY_TYPE GetEntityType() {
-        return ENTITY_TYPE.ENT_PAUSE;
+        return ENTITY_TYPE.ENT_DEFAULT;
     }
-    public static ResumebuttonEntity Create(){
-        ResumebuttonEntity result=new ResumebuttonEntity();
-        EntityManager.Instance.AddEntity(result,ENTITY_TYPE.ENT_PAUSE);
+    public static PausetitleEntity Create(){
+        PausetitleEntity result=new PausetitleEntity();
+        EntityManager.Instance.AddEntity(result,ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
 

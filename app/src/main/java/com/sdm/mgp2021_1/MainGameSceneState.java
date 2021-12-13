@@ -1,16 +1,15 @@
 package com.sdm.mgp2021_1;
 
-import android.app.Activity;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.view.SurfaceView;
 
 // Created by TanSiewLan2021
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
+    ShapeEntity Shape1 = new ShapeEntity();
+    ShapeEntity Shape2 = new ShapeEntity();
+    ShapeEntity Shape3 = new ShapeEntity();
 
     @Override
     public String GetName() {
@@ -22,7 +21,11 @@ public class MainGameSceneState implements StateBase {
     {
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
-        Ship.Create();
+        Ball.Create();
+        Shape1.Create();
+        Shape2.Create();
+        Shape3.Create();
+
         //SmurfEntity.Create();
         //StarEntity.Create();
         //PausebuttonEntity.Create();
@@ -39,18 +42,16 @@ public class MainGameSceneState implements StateBase {
     }
 
     @Override
-    public void Render(Canvas _canvas)
-    {
+    public void Render(Canvas _canvas) {
         EntityManager.Instance.Render(_canvas);
 
     }
 
     @Override
     public void Update(float _dt) {
-
+        // 3 shapes pos: 120, 540, 960
         EntityManager.Instance.Update(_dt);
         if (TouchManager.Instance.IsDown()) {
-			
             //Example of touch on screen in the main game to trigger back to Main menu
             // StateManager.Instance.ChangeState("Mainmenu");
         }

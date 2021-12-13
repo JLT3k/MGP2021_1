@@ -47,7 +47,7 @@ public class QuitbuttonEntity implements EntityBase{
         ScreenHeight = metrics.heightPixels;
         ScreenWidth = metrics.widthPixels;
 
-        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/2,ScreenHeight/15,true);
+        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/2,ScreenHeight/10,true);
 
         xPos = ScreenWidth * 0.5f;
         yPos = ScreenHeight * 0.8f;
@@ -64,9 +64,10 @@ public class QuitbuttonEntity implements EntityBase{
                     float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
                     if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
                         Paused = true;
+                        StateManager.Instance.ChangeState("MainMenu");
+
                     }
                     buttonDelay = 1;
-                    StateManager.Instance.ChangeState("MainMenu");
 
                 }
             } else

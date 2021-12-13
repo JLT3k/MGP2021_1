@@ -24,14 +24,13 @@ public class MainGameSceneState implements StateBase {
 
         //SmurfEntity.Create();
         //StarEntity.Create();
-        //PausebuttonEntity.Create();
-        //PausetitleEntity.Create();
-        //QuitbuttonEntity.Create();
+        PausebuttonEntity.Create();
+        PausetitleEntity.Create();
+        QuitbuttonEntity.Create();
 
         // Player.Create();
         // NPC.Create();
         // Example to include another Renderview for Pause Button
-
     }
 
     @Override

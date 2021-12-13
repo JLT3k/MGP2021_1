@@ -49,7 +49,7 @@ public class PausetitleEntity implements EntityBase{
         scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/2,ScreenHeight/15,true);
 
         xPos = ScreenWidth * 0.5f;
-        yPos = ScreenHeight * 0.1f;
+        yPos = ScreenHeight * 0.5f;
 
         isInit = true;
     }

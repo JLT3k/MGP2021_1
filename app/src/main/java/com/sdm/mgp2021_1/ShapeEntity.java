@@ -111,7 +111,7 @@ public class ShapeEntity implements EntityBase, Collidable {
             }
         }
         else{
-            yPosPrev = yPos - 135;
+            yPosPrev = yPos - 150;
         }
 
         if (health <= 0){

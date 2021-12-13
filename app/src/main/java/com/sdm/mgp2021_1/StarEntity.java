@@ -36,11 +36,8 @@ public class StarEntity implements EntityBase, Collidable{
 
     @Override
     public void Init(SurfaceView _view) {
-
         // New method using our own resource manager : Returns pre-loaded one if exists
         bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
-
- 
 
         isInit = true;
     }

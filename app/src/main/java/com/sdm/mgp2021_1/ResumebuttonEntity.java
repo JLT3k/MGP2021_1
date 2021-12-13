@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-public class PausebuttonEntity implements EntityBase{
+public class ResumebuttonEntity implements EntityBase{
 
     private boolean isDone = false;
 
@@ -40,8 +40,8 @@ public class PausebuttonEntity implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        bmpP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.pauseicon);
-        bmpUP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.pauseicon1);
+        bmpP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.playicon);
+        bmpUP = BitmapFactory.decodeResource(_view.getResources(),R.drawable.playicon);
 
         DisplayMetrics metrics=_view.getResources().getDisplayMetrics();
         ScreenHeight = metrics.heightPixels;
@@ -50,8 +50,8 @@ public class PausebuttonEntity implements EntityBase{
         scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/10,ScreenHeight/20,true);
         scaledbmpUP = Bitmap.createScaledBitmap(bmpUP,ScreenWidth/10,ScreenHeight/20,true);
 
-        xPos = ScreenWidth - 100;
-        yPos = 150;
+        xPos = ScreenWidth * 0.5f;
+        yPos = ScreenHeight * 0.5f;
 
         isInit = true;
     }
@@ -59,31 +59,31 @@ public class PausebuttonEntity implements EntityBase{
     @Override
     public void Update(float _dt) {
         buttonDelay += _dt;
-        //if (!GameSystem.Instance.GetIsPaused()) {
-            if (TouchManager.Instance.HasTouch()) {
-                if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
-                    float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
-                    if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
-                        Paused = true;
-                    }
-                    buttonDelay = 1;
-                    GameSystem.Instance.SetIsPaused((!GameSystem.Instance.GetIsPaused()));
-                    //GameSystem.Instance.SetIsPaused(true);
-                }
-            } else
-                Paused = false;
-        //}
+//        if (GameSystem.Instance.GetIsPaused()) {
+//            if (TouchManager.Instance.HasTouch()) {
+//                if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
+//                    float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
+//                    if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
+//                        Paused = true;
+//                    }
+//                    buttonDelay = 0;
+//                    //GameSystem.Instance.SetIsPaused((!GameSystem.Instance.GetIsPaused()));
+//                    GameSystem.Instance.SetIsPaused(false);
+//                }
+//            } else
+//                Paused = false;
+//        }
     }
 
     @Override
     public void Render(Canvas _canvas) {
-        //if (!GameSystem.Instance.GetIsPaused()) {
+        if (GameSystem.Instance.GetIsPaused()) {
             if (Paused == false)
                 _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
 
             else
                 _canvas.drawBitmap(scaledbmpUP, xPos - scaledbmpUP.getWidth() * 0.5f, yPos - scaledbmpUP.getHeight() * 0.5f, null);
-       // }
+        }
     }
 
     @Override
@@ -105,8 +105,8 @@ public class PausebuttonEntity implements EntityBase{
     public ENTITY_TYPE GetEntityType() {
         return ENTITY_TYPE.ENT_PAUSE;
     }
-    public static PausebuttonEntity Create(){
-        PausebuttonEntity result=new PausebuttonEntity();
+    public static ResumebuttonEntity Create(){
+        ResumebuttonEntity result=new ResumebuttonEntity();
         EntityManager.Instance.AddEntity(result,ENTITY_TYPE.ENT_PAUSE);
         return result;
     }

@@ -125,5 +125,5 @@ public class Ball implements EntityBase {
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
     }
-    
+
 }

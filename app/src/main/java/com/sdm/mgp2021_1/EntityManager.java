@@ -44,6 +44,7 @@ public class EntityManager {
                 // Done! Time to add to the removal list
                 removalList.add(entityList.get(i));
             }
+
         }
 
         // Remove all entities that are done

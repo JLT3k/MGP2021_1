@@ -7,9 +7,8 @@ import android.view.SurfaceView;
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
-    ShapeEntity Shape1 = new ShapeEntity();
-    ShapeEntity Shape2 = new ShapeEntity();
-    ShapeEntity Shape3 = new ShapeEntity();
+    private boolean next = false;
+    Ball ball1 = new Ball();
 
     @Override
     public String GetName() {
@@ -21,10 +20,8 @@ public class MainGameSceneState implements StateBase {
     {
         RenderBackground.Create(); // This is da entity
         RenderTextEntity.Create(); // Da text
-        Ball.Create();
-        Shape1.Create();
-        Shape2.Create();
-        Shape3.Create();
+        ShapeEntity.Create();
+        ball1.Create();
 
         //SmurfEntity.Create();
         //StarEntity.Create();
@@ -44,7 +41,6 @@ public class MainGameSceneState implements StateBase {
     @Override
     public void Render(Canvas _canvas) {
         EntityManager.Instance.Render(_canvas);
-
     }
 
     @Override

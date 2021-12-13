@@ -7,10 +7,10 @@ import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
-public class Ball implements EntityBase {
+public class Ball implements EntityBase, Collidable {
     private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false;
     int ScreenWidth, ScreenHeight;
-    private float xPos, yPos, xTouchPos, yTouchPos, acceleration;
+    private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, gravity;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -31,15 +31,17 @@ public class Ball implements EntityBase {
     @Override
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
-        acceleration = 0;
+        acceleration = 1;
         xPos = 488.f;
         yPos = 144.f;
+        xPosPrev = 488.f;
+        yPosPrev = 144.f;
     }
 
     @Override
     public void Update(float _dt) {
 
-        if (TouchManager.Instance.HasTouch()){
+        if (TouchManager.Instance.HasTouch() && !shot && !move){
             xTouchPos = TouchManager.Instance.GetPosX();
             yTouchPos = TouchManager.Instance.GetPosY();
             shot = true;
@@ -55,42 +57,32 @@ public class Ball implements EntityBase {
             move = true;
         }
         if (move) {
-            yPos += _dt * acceleration;
+            yPos += _dt * (yTouchPos - yPosPrev);
             if (shotRight) {
                 if (!flipped)
-                    xPos += _dt * acceleration;
+                    xPos += _dt * 500;
                 else
-                    xPos -= _dt * acceleration;
+                    xPos -= _dt * 500;
             } else {
                 if (!flipped)
-                    xPos -= _dt * acceleration;
+                    xPos -= _dt * 500;
                 else
-                    xPos += _dt * acceleration;
+                    xPos += _dt * 500;
             }
         }
 
-        if (acceleration >= 1000) {
-            acceleration = 1000;
-        }
-        else {
-            acceleration += _dt * 200;
-        }
         if (xPos >= 1006 || xPos <= 0) {
             flipped = !flipped;
-            System.out.println(flipped);
+            //System.out.println(flipped);
         }
         if (yPos > 2000 || yPos < -100) {
-            SetIsDone(true);
+            flipped = false;
+            xPos = 488.f;
+            yPos = 144.f;
+            acceleration = 0;
+            move = false;
         }
 
- /*       if(TouchManager.Instance.IsDown()){
-            // Check collision
-            float imgRadius = bmp.getHeight() * 0.5f;
-            if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos,yPos, imgRadius))
-            {
-                SetIsDone(true);
-            }
-        }*/
     }
 
     @Override
@@ -124,6 +116,39 @@ public class Ball implements EntityBase {
         Ball result = new Ball();
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
         return result;
+    }
+
+    @Override
+    public String GetType() {
+        return "BallEntity";
+    }
+
+    @Override
+    public float GetPosX() {
+        return xPos;
+    }
+
+    @Override
+    public float GetPosY() {
+        return yPos;
+    }
+
+    @Override
+    public float GetRadius() {
+        return ball.getWidth();
+    }
+
+    @Override
+    public void OnHit(Collidable _other) {
+        if(_other.GetType() != this.GetType()
+                && _other.GetType() !=  "SmurfEntity") {  // Another entity
+            System.out.print(true);
+            flipped = false;
+            xPos = 488.f;
+            yPos = 144.f;
+            acceleration = 0;
+            move = false;
+        }
     }
 
 }

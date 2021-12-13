@@ -105,7 +105,7 @@ public class SmurfEntity implements EntityBase {
         return LayerConstants.SMURF_LAYER;
     }
 
-    @Override
+
     public void SetRenderLayer(int _newLayer) {
 
     }

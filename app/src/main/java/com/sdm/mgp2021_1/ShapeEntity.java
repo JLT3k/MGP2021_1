@@ -11,13 +11,13 @@ import java.util.Random;
 
 public class ShapeEntity implements EntityBase, Collidable {
     private boolean isDone = false;
-    private boolean moveLeft = true;
+    private boolean turn = false;
     private Bitmap bmp = null, scaledbmp = null;
-    int ScreenWidth, ScreenHeight;
+    public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    private float xPos = 0;
-    private float yPos = 0, xPos2, yPos2;
-    private float offset, imgRadius;
+    private float xPos = new Random().nextInt(840) + 120;
+    private float yPos = 1920, yPosPrev;
+    private float offset, imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
 
@@ -91,6 +91,8 @@ public class ShapeEntity implements EntityBase, Collidable {
     public void Init(SurfaceView _view) {
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(30) + 1;
+        turn = true;
+        yPosPrev = 1920;
         //Find the surfaceview size or screensize
 //        metrics = _view.getResources().getDisplayMetrics();
 //        ScreenHeight = metrics.heightPixels / 5;
@@ -102,22 +104,34 @@ public class ShapeEntity implements EntityBase, Collidable {
 
     @Override
     public void Update(float _dt) {
-        // xPos = TouchManager.Instance.GetPosX();
-        // yPos = TouchManager.Instance.GetPosY();
         imgRadius = yellowCircle.getHeight() * 0.5f;
+        if (turn){
+            if (yPos > (yPosPrev - 135)){
+                yPos -= _dt * 100;
+            }
+            else{
+                turn = false;
+            }
+        }
+
+        if (health <= 0){
+            SetIsDone(true);
+        }
+        rotation += _dt * 10;
     }
 
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
         transform.setTranslate(xPos, yPos);
+//        if (shape_type == 1 || shape_type == 2) {
+//            transform.setRotate(rotation);
+//        }
 //        if (TouchManager.Instance.HasTouch()){
 //            transform.setTranslate(xPos, yPos);
 //            System.out.println(xPos);
 //            System.out.println(yPos);
 //        }
-        System.out.println(xPos);
-        System.out.println(yPos);
         renderShapes(_canvas, transform);
     }
 
@@ -221,14 +235,9 @@ public class ShapeEntity implements EntityBase, Collidable {
 
     @Override
     public void OnHit(Collidable _other) {
-
+        health--;
+        turn = true;
+        yPosPrev = yPos;
     }
 
-    public void setHealth(int hp) {
-        health = hp;
-    }
-
-    public int getHealth() {
-        return health;
-    }
 }

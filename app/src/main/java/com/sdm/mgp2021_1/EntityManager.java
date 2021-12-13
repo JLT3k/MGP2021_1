@@ -94,7 +94,6 @@ public class EntityManager {
 
     public void Render(Canvas _canvas)
     {
-      
         // Use the new "rendering layer" to sort the render order
         Collections.sort(entityList, new Comparator<EntityBase>() {
             @Override

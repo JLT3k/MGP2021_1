@@ -8,9 +8,9 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class Ball implements EntityBase, Collidable {
-    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false;
+    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = false;
     int ScreenWidth, ScreenHeight;
-    private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, gravity;
+    private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -36,15 +36,16 @@ public class Ball implements EntityBase, Collidable {
         yPos = 144.f;
         xPosPrev = 488.f;
         yPosPrev = 144.f;
+        imgRadius = ball.getHeight() * 0.5f;
     }
 
     @Override
     public void Update(float _dt) {
-
-        if (TouchManager.Instance.HasTouch() && !shot && !move){
+        if (TouchManager.Instance.HasTouch() && !shot && !move && !turn){
             xTouchPos = TouchManager.Instance.GetPosX();
             yTouchPos = TouchManager.Instance.GetPosY();
             shot = true;
+            System.out.print("Shot!");
         }
         if (shot){
             if (xPos < xTouchPos)
@@ -81,6 +82,16 @@ public class Ball implements EntityBase, Collidable {
             yPos = 144.f;
             acceleration = 0;
             move = false;
+            turn = true;
+        }
+
+        if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.Shape1.GetPosY(), GameSystem.Instance.Shape1.GetRadius())){
+            flipped = false;
+            xPos = 488.f;
+            yPos = 144.f;
+            acceleration = 0;
+            move = false;
+            turn = true;
         }
 
     }
@@ -133,6 +144,12 @@ public class Ball implements EntityBase, Collidable {
         return yPos;
     }
 
+    public boolean GetTurn(){ return turn; }
+
+    public void SetTurn(boolean turn){
+        this.turn = turn;
+    }
+
     @Override
     public float GetRadius() {
         return ball.getWidth();
@@ -140,15 +157,7 @@ public class Ball implements EntityBase, Collidable {
 
     @Override
     public void OnHit(Collidable _other) {
-        if(_other.GetType() != this.GetType()
-                && _other.GetType() !=  "SmurfEntity") {  // Another entity
-            System.out.print(true);
-            flipped = false;
-            xPos = 488.f;
-            yPos = 144.f;
-            acceleration = 0;
-            move = false;
-        }
+
     }
 
 }

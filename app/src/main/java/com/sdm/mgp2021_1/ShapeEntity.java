@@ -10,13 +10,12 @@ import android.view.SurfaceView;
 import java.util.Random;
 
 public class ShapeEntity implements EntityBase, Collidable {
-    private boolean isDone = false;
-    private boolean turn = false;
+    private boolean isDone = false, animation = true;
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
     private float xPos = new Random().nextInt(840) + 120;
-    private float yPos = 1920, yPosPrev;
+    private float yPos = 1920, yPosPrev = 1785;
     private float offset, imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
@@ -91,13 +90,11 @@ public class ShapeEntity implements EntityBase, Collidable {
     public void Init(SurfaceView _view) {
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(30) + 1;
-        turn = true;
-        yPosPrev = 1920;
         //Find the surfaceview size or screensize
-//        metrics = _view.getResources().getDisplayMetrics();
-//        ScreenHeight = metrics.heightPixels / 5;
-//        ScreenWidth = metrics.widthPixels / 5;
-//        scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);
+      /*  metrics = _view.getResources().getDisplayMetrics();
+        ScreenHeight = metrics.heightPixels / 5;
+        ScreenWidth = metrics.widthPixels / 5;
+        scaledbmp = Bitmap.createScaledBitmap(bmp, ScreenWidth, ScreenHeight, true);*/
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         InitShapes(_view);
     }
@@ -105,19 +102,27 @@ public class ShapeEntity implements EntityBase, Collidable {
     @Override
     public void Update(float _dt) {
         imgRadius = yellowCircle.getHeight() * 0.5f;
-        if (turn){
-            if (yPos > (yPosPrev - 135)){
+        if (animation){
+            if (yPos > (yPosPrev)){
                 yPos -= _dt * 100;
             }
             else{
-                turn = false;
+                animation = false;
             }
+        }
+        else{
+            yPosPrev = yPos - 135;
         }
 
         if (health <= 0){
             SetIsDone(true);
         }
         rotation += _dt * 10;
+
+        if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.ball.GetPosY(), GameSystem.Instance.ball.GetRadius())){
+            health--;
+        }
+
     }
 
     @Override
@@ -126,11 +131,6 @@ public class ShapeEntity implements EntityBase, Collidable {
         transform.setTranslate(xPos, yPos);
 //        if (shape_type == 1 || shape_type == 2) {
 //            transform.setRotate(rotation);
-//        }
-//        if (TouchManager.Instance.HasTouch()){
-//            transform.setTranslate(xPos, yPos);
-//            System.out.println(xPos);
-//            System.out.println(yPos);
 //        }
         renderShapes(_canvas, transform);
     }
@@ -233,11 +233,13 @@ public class ShapeEntity implements EntityBase, Collidable {
         return yellowCircle.getWidth();
     }
 
+    public void SetAnimation(boolean animation) {
+        this.animation = animation;
+    }
+
     @Override
     public void OnHit(Collidable _other) {
-        health--;
-        turn = true;
-        yPosPrev = yPos;
+
     }
 
 }

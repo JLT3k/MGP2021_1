@@ -78,7 +78,6 @@ public class StarEntity implements EntityBase, Collidable{
 
     @Override
     public boolean IsInit() {
-
         return isInit;
     }
 

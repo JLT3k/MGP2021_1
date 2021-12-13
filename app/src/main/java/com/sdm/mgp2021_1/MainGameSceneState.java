@@ -31,6 +31,8 @@ public class MainGameSceneState implements StateBase {
         // Player.Create();
         // NPC.Create();
         // Example to include another Renderview for Pause Button
+
+        GameSystem.Instance.ResetPoints();
     }
 
     @Override

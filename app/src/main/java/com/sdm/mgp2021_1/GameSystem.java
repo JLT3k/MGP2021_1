@@ -14,6 +14,7 @@ public class GameSystem {
     Ball ball = new Ball();
     ShapeEntity Shape1 = new ShapeEntity();
     ShapeEntity[] Shape = new ShapeEntity[20];
+    private int points;
 
 
     // Singleton Pattern : Blocks others from creating
@@ -53,4 +54,15 @@ public class GameSystem {
         return isPaused;
     }
 
+    public int GetPoints() {
+        return points;
+    }
+
+    public void AddPoint() {
+        points++;
+    }
+
+    public void ResetPoints() {
+        points = 0;
+    }
 }

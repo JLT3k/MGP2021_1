@@ -26,7 +26,7 @@ public class MainGameSceneState implements StateBase {
         //StarEntity.Create();
         PausebuttonEntity.Create();
         PausetitleEntity.Create();
-        QuitbuttonEntity.Create();
+        //QuitbuttonEntity.Create();
 
         // Player.Create();
         // NPC.Create();

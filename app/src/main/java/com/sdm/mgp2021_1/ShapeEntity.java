@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
@@ -14,11 +16,13 @@ public class ShapeEntity implements EntityBase, Collidable {
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    private float xPos = new Random().nextInt(800) + 120;
-    private float yPos = 1920, yPosPrev = 1785;
+    private float xPos = 9999;
+    private float yPos = 9999, yPosPrev = 9999;
     private float offset, imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
+    Paint paint = new Paint(); // Under android graphic library.
+    Typeface myfont;  // USe for loading font
 
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -91,12 +95,12 @@ public class ShapeEntity implements EntityBase, Collidable {
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(1) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
+        myfont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         InitShapes(_view);
     }
 
     @Override
     public void Update(float _dt) {
-        System.out.println(GameSystem.Instance.GetPoints());
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
             if (yPos > (yPosPrev)){
@@ -122,6 +126,9 @@ public class ShapeEntity implements EntityBase, Collidable {
                 GameSystem.Instance.ball[i].Reset();
             }
         }
+        if (yPos > 1920) {
+            // Lose condition
+        }
 
         if (IsDone()) {
             xPos = 9999;
@@ -135,9 +142,19 @@ public class ShapeEntity implements EntityBase, Collidable {
         Matrix transform = new Matrix();
         transform.setTranslate(xPos, yPos);
         renderShapes(_canvas, transform);
+        RenderHealth(_canvas);
+    }
+
+    public void RenderHealth(Canvas _canvas) {
+        paint.setARGB(255, 0,0,0);
+        paint.setStrokeWidth(200);
+        paint.setTypeface(myfont);
+        paint.setTextSize(70);
+        _canvas.drawText("" + Math.round(health), xPos + 60, yPos + 100 , paint);
     }
 
     public void Respawn() {
+        SetIsDone(false);
         xPos = new Random().nextInt(800) + 120;
         yPos = 1920;
         yPosPrev = 1785;

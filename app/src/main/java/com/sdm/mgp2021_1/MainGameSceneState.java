@@ -7,9 +7,10 @@ import android.view.SurfaceView;
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
-    private int Index = 1;
+    private int Index = 0;
     private int Spawned = 1;
     private int NoOfBalls = 1;
+    private boolean spawnExisting = false;
 
     @Override
     public String GetName() {
@@ -67,17 +68,20 @@ public class MainGameSceneState implements StateBase {
             for (int i = 0; i < NoOfBalls; ++i) {
                 GameSystem.Instance.ball[i].SetTurn(false);
             }
-            Spawned++;
+            if (!spawnExisting)
+                Spawned++;
             Index = Spawned;
+            spawnExisting = false;
         }
 
         if (Spawned >= 20) {
             Spawned = 20;
         }
 
-        for (int i = 0; i < Index; ++i) {
+        for (int i = 0; i <= Index; ++i) {
             if (GameSystem.Instance.Shape[i].IsDone()) {
                 Index = i;
+                spawnExisting = true;
             }
         }
     }

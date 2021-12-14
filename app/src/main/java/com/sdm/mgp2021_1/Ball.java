@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class Ball implements EntityBase, Collidable {
-    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = false;
+    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = true;
     int ScreenWidth, ScreenHeight;
     private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
     private SurfaceView view = null;
@@ -47,7 +47,6 @@ public class Ball implements EntityBase, Collidable {
                     xTouchPos = TouchManager.Instance.GetPosX();
                     yTouchPos = TouchManager.Instance.GetPosY();
                     shot = true;
-                    System.out.print("Shot!");
                 }
             }
         }

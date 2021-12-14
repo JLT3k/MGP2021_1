@@ -103,6 +103,16 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             }
         }
 
+
+    }
+
+    public void Reset () {
+        flipped = false;
+        pos.x = 488.f;
+        pos.y = 144.f;
+        acceleration = 500;
+        move = false;
+        turn = true;
     }
 
     @Override
@@ -167,7 +177,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public float GetRadius() {
-        return ball.getWidth();
+        return ball.getHeight() * 0.5f;
     }
 
     @Override

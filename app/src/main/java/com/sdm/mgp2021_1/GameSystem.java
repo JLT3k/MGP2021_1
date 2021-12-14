@@ -12,7 +12,7 @@ public class GameSystem {
 
     // Game stuff
     private boolean isPaused = false;
-    Ball ball = new Ball();
+    Ball[] ball = new Ball[5];
     ShapeEntity[] Shape = new ShapeEntity[20];
     private int points;
 
@@ -23,18 +23,25 @@ public class GameSystem {
         for (int i = 0; i < 20; ++i){
             Shape[i] = new ShapeEntity();
         }
+        for (int i = 0; i < 5; ++i){
+            ball[i] = new Ball();
+        }
     }
 
     public void Update(float _deltaTime)
     {
-        ball.Update(_deltaTime);
+        for (int i = 0; i < 5; ++i) {
+            ball[i].Update(_deltaTime);
+        }
         for (int i = 0; i < 20; ++i)
             Shape[i].Update(_deltaTime);
     }
 
     public void Init(SurfaceView _view)
     {
-        ball.Init(_view);
+        for (int i = 0; i < 5; ++i) {
+            ball[i].Init(_view);
+        }
         for (int i = 0; i < 20; ++i)
             Shape[i].Init(_view);
         // We will add all of our states into the state manager here!

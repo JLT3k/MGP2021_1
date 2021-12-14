@@ -60,7 +60,7 @@ public class MainGameSceneState implements StateBase {
         EntityManager.Instance.Update(_dt);
 
         if (GameSystem.Instance.ball[NoOfBalls - 1].GetTurn()){
-            GameSystem.Instance.Shape[Index].Create();
+            GameSystem.Instance.Shape[Index].Respawn();
             for (int i = 0; i < Spawned; ++i) {
                 GameSystem.Instance.Shape[i].SetAnimation(true);
             }
@@ -75,7 +75,7 @@ public class MainGameSceneState implements StateBase {
             Spawned = 20;
         }
 
-        for (int i = 0; i < Spawned; ++i) {
+        for (int i = 0; i < Index; ++i) {
             if (GameSystem.Instance.Shape[i].IsDone()) {
                 Index = i;
             }

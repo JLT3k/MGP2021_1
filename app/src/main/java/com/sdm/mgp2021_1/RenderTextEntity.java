@@ -67,14 +67,14 @@ public class RenderTextEntity implements EntityBase{
     @Override
     public void Render(Canvas _canvas){
         // we using PAINT which is part of graphic library in android
-        paint.setARGB(255, 0,255,0);  // alpha = 255 which meant it is not transparent, Opacity is full 100%
+        paint.setARGB(255, 255,255,255);  // alpha = 255 which meant it is not transparent, Opacity is full 100%
         // font color is black
         paint.setStrokeWidth(200);  // How thick the font is
         paint.setTypeface(myfont); // Use the font type that I loaded
         paint.setTextSize(70); // Font size.
         _canvas.drawText("FPS: " + Math.round(fps), 30, 80, paint);  // For now, default number but u can use _view.getWidth/ ?
         //_canvas.drawText("Paused?: " + (GameSystem.Instance.GetIsPaused() ? "paused" : "not paused"), 30, 160, paint);
-        _canvas.drawText("Points: " + GameSystem.Instance.GetPoints(), 30, 160, paint);
+        _canvas.drawText("" + GameSystem.Instance.GetPoints(), 550, 100, paint);
     }
 
     @Override

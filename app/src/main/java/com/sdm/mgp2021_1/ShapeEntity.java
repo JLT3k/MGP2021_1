@@ -92,13 +92,14 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Init(SurfaceView _view) {
         shape_type = new Random().nextInt(3);
-        health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
+        health = new Random().nextInt(1) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         InitShapes(_view);
     }
 
     @Override
     public void Update(float _dt) {
+        System.out.println(GameSystem.Instance.GetPoints());
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
             if (pos.y > (yPosPrev)){
@@ -129,11 +130,6 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             pos.x = 9999;
             pos.y = 9999;
         }
-        else if (pos.x == 9999){
-            respawn = true;
-        }
-        Respawn();
-
 
     }
 
@@ -144,17 +140,12 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         renderShapes(_canvas, transform);
     }
 
-    public void Respawn()
-    {
-        if (respawn)
-        {
-            pos.x = new Random().nextInt(800) + 120;
-            pos.y = 1920;
-            yPosPrev = 1785;
-            shape_type = new Random().nextInt(3);
-            health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
-            respawn = false;
-        }
+    public void Respawn() {
+        pos.x = new Random().nextInt(800) + 120;
+        pos.y = 1920;
+        yPosPrev = 1785;
+        shape_type = new Random().nextInt(3);
+        health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
     }
 
     public void renderShapes(Canvas _canvas, Matrix transform)
@@ -263,6 +254,10 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     public void SetAnimation(boolean animation) {
         this.animation = animation;
+    }
+
+    public boolean GetAnimation() {
+        return animation;
     }
 
     @Override

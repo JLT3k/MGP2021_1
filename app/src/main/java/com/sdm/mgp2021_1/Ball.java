@@ -46,11 +46,13 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Update(float _dt) {
         if (!GameSystem.Instance.GetIsPaused()) {
-            if (TouchManager.Instance.HasTouch() && !shot && !move && !turn) {
-                xTouchPos = TouchManager.Instance.GetPosX();
-                yTouchPos = TouchManager.Instance.GetPosY();
-                shot = true;
-                System.out.print("Shot!");
+            for (int i = 0; i < 20; ++i) {
+                if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
+                    xTouchPos = TouchManager.Instance.GetPosX();
+                    yTouchPos = TouchManager.Instance.GetPosY();
+                    shot = true;
+                    System.out.print("Shot!");
+                }
             }
         }
         if (shot){
@@ -90,17 +92,6 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             acceleration = 0;
             move = false;
             turn = true;
-        }
-
-        for (int i = 0; i < 20; ++i) {
-            if (Collision.SphereToSphere(pos.x, pos.y, imgRadius, GameSystem.Instance.Shape[i].GetPosX(), GameSystem.Instance.Shape[i].GetPosY(), GameSystem.Instance.Shape[i].GetRadius())) {
-                flipped = false;
-                pos.x = 488.f;
-                pos.y = 144.f;
-                acceleration = 500;
-                move = false;
-                turn = true;
-            }
         }
 
 

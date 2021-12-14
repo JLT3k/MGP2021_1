@@ -74,6 +74,7 @@ public class RenderTextEntity implements EntityBase{
         paint.setTextSize(70); // Font size.
         _canvas.drawText("FPS: " + Math.round(fps), 30, 80, paint);  // For now, default number but u can use _view.getWidth/ ?
         //_canvas.drawText("Paused?: " + (GameSystem.Instance.GetIsPaused() ? "paused" : "not paused"), 30, 160, paint);
+        // Draw points
         _canvas.drawText("" + GameSystem.Instance.GetPoints(), 520, 100, paint);
     }
 

@@ -1,5 +1,7 @@
 package com.sdm.mgp2021_1;
 
+// Created by Muhammad Rifdi
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;

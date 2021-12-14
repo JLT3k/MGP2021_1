@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.view.SurfaceView;
 
 // Created by TanSiewLan2021
+// Created by Muhammad Rifdi
 
 public class GameSystem {
     public final static GameSystem Instance = new GameSystem();

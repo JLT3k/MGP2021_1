@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceView;
 
 // Created by TanSiewLan2021
+// Updated by Muhammad Rifdi
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
@@ -51,7 +52,6 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
-        // 3 shapes pos: 120, 540, 960
         for (int i = 0; i < NoOfBalls; ++i) {
             GameSystem.Instance.ball[i].Update(_dt);
         }

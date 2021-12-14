@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 public class Ball implements EntityBase, Collidable, PhysicsObject {
     private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = false;
     int ScreenWidth, ScreenHeight;
-    private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
+    private float /*xPos, yPos,*/ xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -19,6 +19,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     private float xVel, yVel;
 
+    private Vector3 pos, vel;
     //private Vector3 pos, vel;
 
     //check if anything to do with entity (use for pause)
@@ -36,8 +37,10 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         acceleration = 0;
-        xPos = 488.f;
-        yPos = 144.f;
+        //xPos = 488.f;
+        //yPos = 144.f;
+        pos = new Vector3(488.f, 144.f);
+        vel = new Vector3();
         xPosPrev = 488.f;
         yPosPrev = 144.f;
         imgRadius = ball.getHeight() * 0.5f;
@@ -55,39 +58,39 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             }
         }
         if (shot){
-            if (xPos < xTouchPos)
+            if (pos.x < xTouchPos)
                 shotRight = true;
 
-            if (xPos > xTouchPos)
+            if (pos.x > xTouchPos)
                 shotRight = false;
 
             shot = false;
             move = true;
         }
         if (move) {
-            yPos += _dt * (yTouchPos - yPosPrev);
-            yPos -= _dt * acceleration;
+            pos.y += _dt * (yTouchPos - yPosPrev);
+            pos.y -= _dt * acceleration;
             if (shotRight) {
                 if (!flipped)
-                    xPos += _dt * 500;
+                    pos.x += _dt * 500;
                 else
-                    xPos -= _dt * 500;
+                    pos.x -= _dt * 500;
             } else {
                 if (!flipped)
-                    xPos -= _dt * 500;
+                    pos.x -= _dt * 500;
                 else
-                    xPos += _dt * 500;
+                    pos.x += _dt * 500;
             }
         }
 
-        if (xPos > 1006 || xPos < 0) {
+        if (pos.x > 1006 || pos.x < 0) {
             flipped = !flipped;
             //System.out.println(flipped);
         }
-        if (yPos > 2000 || yPos < -100) {
+        if (pos.y > 2000 || pos.y < -100) {
             flipped = false;
-            xPos = 488.f;
-            yPos = 144.f;
+            pos.x = 488.f;
+            pos.y = 144.f;
             acceleration = 0;
             move = false;
             turn = true;
@@ -98,8 +101,8 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     public void Reset () {
         flipped = false;
-        xPos = 488.f;
-        yPos = 144.f;
+        pos.x = 488.f;
+        pos.y = 144.f;
         acceleration = 500;
         move = false;
         turn = true;
@@ -108,7 +111,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
-        transform.setTranslate(xPos, yPos);
+        transform.setTranslate(pos.x, pos.y);
         _canvas.drawBitmap(ball,transform,null);
     }
 
@@ -145,19 +148,19 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public float GetPosX() {
-        return xPos;
+        return pos.x;
     }
 
     @Override
     public float GetPosY() {
-        return yPos;
+        return pos.y;
     }
 
     @Override
-    public Vector3 GetPos() { return null; }
+    public Vector3 GetPos() { return pos; }
 
     @Override
-    public Vector3 GetVel() { return null; }
+    public Vector3 GetVel() { return vel; }
 
     public boolean GetTurn(){ return turn; }
 

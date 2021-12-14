@@ -8,6 +8,8 @@ public class Vector3 {
     Vector3(float x, float y) { this.x = x; this.y = y; z = 0.0f; }
     Vector3(float x, float y, float z) { this.x = x; this.y = y; this.z = z; }
 
+    void Set(float x, float y) { this.x = x; this.y = y; }
+
     Vector3 AddVector (Vector3 v){
         return new Vector3(x + v.x, y + v.y, z + v.z);
     }

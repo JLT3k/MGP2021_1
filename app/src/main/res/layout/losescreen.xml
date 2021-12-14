@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:id="@+id/menutitle"
+        android:layout_width="300dp"
+        android:layout_height="61dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/lose"
+        android:text="Back"
+        android:textColor="#bdfcf2"
+        android:textSize="18dp"></ImageView>
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="262dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="450dp"
+        android:layout_marginRight="70dp"
+        android:background="@drawable/tryagain"></Button>
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="510dp"
+        android:layout_marginRight="143dp"
+        android:background="@drawable/exit"></Button>
+
+</RelativeLayout>

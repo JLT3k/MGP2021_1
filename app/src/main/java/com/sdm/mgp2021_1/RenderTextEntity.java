@@ -75,7 +75,10 @@ public class RenderTextEntity implements EntityBase{
         _canvas.drawText("FPS: " + Math.round(fps), 30, 80, paint);  // For now, default number but u can use _view.getWidth/ ?
         //_canvas.drawText("Paused?: " + (GameSystem.Instance.GetIsPaused() ? "paused" : "not paused"), 30, 160, paint);
         // Draw points
-        _canvas.drawText("" + GameSystem.Instance.GetPoints(), 520, 100, paint);
+        if (GameSystem.Instance.GetPoints() < 10)
+            _canvas.drawText("" + GameSystem.Instance.GetPoints(), 520, 100, paint);
+        else
+            _canvas.drawText("" + GameSystem.Instance.GetPoints(), 505, 100, paint);
     }
 
     @Override

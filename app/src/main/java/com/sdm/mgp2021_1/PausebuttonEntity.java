@@ -59,31 +59,27 @@ public class PausebuttonEntity implements EntityBase{
     @Override
     public void Update(float _dt) {
         buttonDelay += _dt;
-        //if (!GameSystem.Instance.GetIsPaused()) {
-            if (TouchManager.Instance.HasTouch()) {
-                if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
-                    float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
-                    if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
-                        Paused = true;
-                        GameSystem.Instance.SetIsPaused((!GameSystem.Instance.GetIsPaused()));
-                        //GameSystem.Instance.SetIsPaused(true);
-                    }
-                    buttonDelay = 1;
+        if (TouchManager.Instance.HasTouch()) {
+            if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
+                float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
+                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
+                    Paused = true;
+                    GameSystem.Instance.SetIsPaused((!GameSystem.Instance.GetIsPaused()));
                 }
-            } else
-                Paused = false;
-        //}
+                buttonDelay = 1;
+            }
+        } else
+            Paused = false;
+
     }
 
     @Override
     public void Render(Canvas _canvas) {
-        //if (!GameSystem.Instance.GetIsPaused()) {
-            if (Paused == false)
-                _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
+        if (Paused == false)
+            _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
 
-            else
-                _canvas.drawBitmap(scaledbmpUP, xPos - scaledbmpUP.getWidth() * 0.5f, yPos - scaledbmpUP.getHeight() * 0.5f, null);
-       // }
+        else
+            _canvas.drawBitmap(scaledbmpUP, xPos - scaledbmpUP.getWidth() * 0.5f, yPos - scaledbmpUP.getHeight() * 0.5f, null);
     }
 
     @Override

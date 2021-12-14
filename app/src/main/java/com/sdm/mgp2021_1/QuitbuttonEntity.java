@@ -47,10 +47,10 @@ public class QuitbuttonEntity implements EntityBase{
         ScreenHeight = metrics.heightPixels;
         ScreenWidth = metrics.widthPixels;
 
-        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/2,ScreenHeight/10,true);
+        scaledbmpP = Bitmap.createScaledBitmap(bmpP,ScreenWidth/4,ScreenHeight/17,true);
 
         xPos = ScreenWidth * 0.5f;
-        yPos = ScreenHeight * 0.8f;
+        yPos = ScreenHeight * 0.58f;
 
         isInit = true;
     }
@@ -64,11 +64,13 @@ public class QuitbuttonEntity implements EntityBase{
                     float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
                     if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
                         Paused = true;
-                        StateManager.Instance.ChangeState("MainMenu");
-
+                        Intent intent = new Intent();
+                        intent.setClass(GamePage.Instance, Mainmenu.class);
+                        StateManager.Instance.ChangeState("Mainmenu");
+                        GamePage.Instance.startActivity(intent);
+                        GameSystem.Instance.SetIsPaused(false);
                     }
                     buttonDelay = 1;
-
                 }
             } else
                 Paused = false;

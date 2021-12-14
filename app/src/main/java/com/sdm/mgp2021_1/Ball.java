@@ -1,5 +1,7 @@
 package com.sdm.mgp2021_1;
 
+// Created by Muhammad Rifdi
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,9 +10,9 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class Ball implements EntityBase, Collidable, PhysicsObject {
-    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = true;
+    private boolean isDone = false, shot = false, move = false, shotRight = false, turn = true, timerStart = false;
     int ScreenWidth, ScreenHeight;
-    private float /*xPos, yPos,*/ xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
+    private float xTouchPos, yTouchPos, imgRadius, timer;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -36,55 +38,41 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
-        acceleration = 0;
-        //xPos = 488.f;
-        //yPos = 144.f;
+
         pos = new Vector3(488.f, 144.f);
         vel = new Vector3();
-        xPosPrev = 488.f;
-        yPosPrev = 144.f;
         imgRadius = ball.getHeight() * 0.5f;
     }
 
     @Override
     public void Update(float _dt) {
-        if (!GameSystem.Instance.GetIsPaused()) {
-            for (int i = 0; i < 20; ++i) {
-                if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
-                    xTouchPos = TouchManager.Instance.GetPosX();
-                    yTouchPos = TouchManager.Instance.GetPosY();
-                    shot = true;
-                }
+        if (GameSystem.Instance.GetIsPaused()) {
+            return;
+        }
+        if (timerStart)
+            timer -= _dt;
+        for (int i = 0; i < 20; ++i) {
+            if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
+                xTouchPos = TouchManager.Instance.GetPosX();
+                yTouchPos = TouchManager.Instance.GetPosY();
+                timerStart = true;
+
             }
         }
-        if (shot){
-//            if (pos.x < xTouchPos)
-//                shotRight = true;
-//
-//            if (pos.x > xTouchPos)
-//                shotRight = false;
+        if (timer < 0) {
+            timerStart = false;
+            shot = true;
+        }
 
+        if (shot) {
             vel.x = xTouchPos - pos.x;
             vel.y = yTouchPos - pos.y;
-            vel = vel.Normalised().MultiplyVector(2000.f);
+            vel = vel.Normalised().MultiplyVector(1000.f);
 
             shot = false;
             move = true;
         }
         if (move) {
-//            pos.y += _dt * (yTouchPos - yPosPrev);
-//            pos.y -= _dt * acceleration;
-//            if (shotRight) {
-//                if (!flipped)
-//                    pos.x += _dt * 500;
-//                else
-//                    pos.x -= _dt * 500;
-//            } else {
-//                if (!flipped)
-//                    pos.x -= _dt * 500;
-//                else
-//                    pos.x += _dt * 500;
-//            }
             vel = Physics.UpdateGravity(vel, _dt);
             pos = Physics.UpdatePosition(this, _dt);
         }
@@ -93,27 +81,12 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             vel.x *= -1;
         }
 
-        if (pos.y > 2000 || pos.y < -100) {
-            flipped = false;
-//            pos.x = 488.f;
-//            pos.y = 144.f;
-
-            pos.Set(488.f, 144.f);
-            vel.Set(0,0);
-
-            acceleration = 0;
-            move = false;
-            turn = true;
-        }
-
-
     }
 
     public void Reset () {
-        flipped = false;
-        pos.x = 488.f;
-        pos.y = 144.f;
-        acceleration = 500;
+        pos.Set(488.f, 144.f);
+        vel.Set(0, 0);
+        shot = false;
         move = false;
         turn = true;
     }
@@ -176,6 +149,12 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     public void SetTurn(boolean turn){
         this.turn = turn;
+    }
+
+    public boolean GetTimerStart(){ return timerStart;}
+
+    public void SetTimer(float timer) {
+        this.timer = timer;
     }
 
     @Override

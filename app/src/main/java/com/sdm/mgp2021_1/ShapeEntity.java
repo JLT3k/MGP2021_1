@@ -2,6 +2,7 @@ package com.sdm.mgp2021_1;
 
 // Created by Muhammad Rifdi
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,9 +19,8 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    //private float xPos = 9999;
-    private float /*yPos = 9999,*/ yPosPrev = 9999;
-    private float offset, imgRadius, rotation;
+    private float yPosPrev = 9999;
+    private float imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
     Paint paint = new Paint(); // Under android graphic library.
@@ -107,6 +107,9 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void Update(float _dt) {
+        if (GameSystem.Instance.GetIsPaused()) {
+            return;
+        }
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
             if (pos.y > (yPosPrev)){
@@ -129,18 +132,22 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         for (int i = 0; i < 5; ++i) {
             if (Collision.SphereToSphere(GameSystem.Instance.ball[i], this)) {
                 health--;
-                //GameSystem.Instance.ball[i].Reset();
                 GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
             }
-        }
-        if (pos.y > 1920) {
-            // Lose condition
         }
 
         if (IsDone()) {
             pos.x = 9999;
             pos.y = 9999;
         }
+
+        if (pos.y < 200) {
+            Intent intent = new Intent();
+            intent.setClass(GamePage.Instance, LoseScreen.class);
+            StateManager.Instance.ChangeState("LoseScreen"); // Default is like a loading page
+            GamePage.Instance.startActivity(intent);
+        }
+
 
     }
 
@@ -157,7 +164,10 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         paint.setStrokeWidth(200);
         paint.setTypeface(myfont);
         paint.setTextSize(70);
-        _canvas.drawText("" + Math.round(health), pos.x + 60, pos.y + 100 , paint);
+        if (health < 10)
+            _canvas.drawText("" + Math.round(health), pos.x + 60, pos.y + 100 , paint);
+        else
+            _canvas.drawText("" + Math.round(health), pos.x + 50, pos.y + 100 , paint);
     }
 
     public void Respawn() {

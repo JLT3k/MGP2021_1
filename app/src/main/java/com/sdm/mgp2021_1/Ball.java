@@ -66,7 +66,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
             vel.x = xTouchPos - pos.x;
             vel.y = yTouchPos - pos.y;
-            vel = vel.Normalised().MultiplyVector(3000.f);
+            vel = vel.Normalised().MultiplyVector(2000.f);
 
             shot = false;
             move = true;
@@ -89,14 +89,9 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             pos = Physics.UpdatePosition(this, _dt);
         }
 
-        if (pos.x > 1006 || pos.x < 0) {
-            //flipped = !flipped;
+        if ((pos.x > 1006 && vel.x > 0) || (pos.x < 0 && vel.x < 0)) {
             vel.x *= -1;
-
-            //System.out.println(flipped);
         }
-
-
 
         if (pos.y > 2000 || pos.y < -100) {
             flipped = false;
@@ -195,7 +190,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void OnHit(PhysicsObject _other) {
-
+        vel = Physics.BallToPillar(this, _other);
     }
 
     @Override

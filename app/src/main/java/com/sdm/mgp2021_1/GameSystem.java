@@ -9,7 +9,7 @@ import android.view.SurfaceView;
 public class GameSystem {
     public final static GameSystem Instance = new GameSystem();
     public final static float inelastic_k = .7f;
-    public final static float m_gravity = 4000f;
+    public final static float m_gravity = 3000f;
     public final static float m_terminal_vel = 4000.f;
 
     // Game stuff

@@ -127,7 +127,8 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         for (int i = 0; i < 5; ++i) {
             if (Collision.SphereToSphere(pos.x, pos.y, imgRadius, GameSystem.Instance.ball[i].GetPosX(), GameSystem.Instance.ball[i].GetPosY(), GameSystem.Instance.ball[i].GetRadius())) {
                 health--;
-                GameSystem.Instance.ball[i].Reset();
+                //GameSystem.Instance.ball[i].Reset();
+                Physics.BallToPillar(GameSystem.Instance.ball[i], this);
             }
         }
         if (pos.y > 1920) {

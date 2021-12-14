@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class Ball implements EntityBase, Collidable, PhysicsObject {
-    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = false;
+    private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = true;
     int ScreenWidth, ScreenHeight;
     private float /*xPos, yPos,*/ xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
     private SurfaceView view = null;
@@ -58,39 +58,54 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             }
         }
         if (shot){
-            if (pos.x < xTouchPos)
-                shotRight = true;
+//            if (pos.x < xTouchPos)
+//                shotRight = true;
+//
+//            if (pos.x > xTouchPos)
+//                shotRight = false;
 
-            if (pos.x > xTouchPos)
-                shotRight = false;
+            vel.x = xTouchPos - pos.x;
+            vel.y = yTouchPos - pos.y;
+            vel = vel.Normalised().MultiplyVector(3000.f);
 
             shot = false;
             move = true;
         }
         if (move) {
-            pos.y += _dt * (yTouchPos - yPosPrev);
-            pos.y -= _dt * acceleration;
-            if (shotRight) {
-                if (!flipped)
-                    pos.x += _dt * 500;
-                else
-                    pos.x -= _dt * 500;
-            } else {
-                if (!flipped)
-                    pos.x -= _dt * 500;
-                else
-                    pos.x += _dt * 500;
-            }
+//            pos.y += _dt * (yTouchPos - yPosPrev);
+//            pos.y -= _dt * acceleration;
+//            if (shotRight) {
+//                if (!flipped)
+//                    pos.x += _dt * 500;
+//                else
+//                    pos.x -= _dt * 500;
+//            } else {
+//                if (!flipped)
+//                    pos.x -= _dt * 500;
+//                else
+//                    pos.x += _dt * 500;
+//            }
+            vel = Physics.UpdateGravity(vel, _dt);
+            pos = Physics.UpdatePosition(this, _dt);
         }
 
         if (pos.x > 1006 || pos.x < 0) {
-            flipped = !flipped;
+            //flipped = !flipped;
+            vel.x *= -1;
+
             //System.out.println(flipped);
         }
+
+
+
         if (pos.y > 2000 || pos.y < -100) {
             flipped = false;
-            pos.x = 488.f;
-            pos.y = 144.f;
+//            pos.x = 488.f;
+//            pos.y = 144.f;
+
+            pos.Set(488.f, 144.f);
+            vel.Set(0,0);
+
             acceleration = 0;
             move = false;
             turn = true;

@@ -60,7 +60,7 @@ public class EntityManager {
 
             if (currEntity instanceof Collidable)
             {
-                Collidable first = (Collidable) currEntity;
+                PhysicsObject first = (PhysicsObject) currEntity;
 
                 for (int j = i+1; j < entityList.size(); ++j)
                 {
@@ -68,9 +68,9 @@ public class EntityManager {
 
                     if (otherEntity instanceof Collidable)
                     {
-                        Collidable second = (Collidable) otherEntity;
+                        PhysicsObject second = (PhysicsObject) otherEntity;
 
-                        if (Collision.SphereToSphere(first.GetPosX(), first.GetPosY(), first.GetRadius(), second.GetPosX(), second.GetPosY(), second.GetRadius()))
+                        if (Collision.SphereToSphere(first, second))
                         {
                             first.OnHit(second);
                             second.OnHit(first);

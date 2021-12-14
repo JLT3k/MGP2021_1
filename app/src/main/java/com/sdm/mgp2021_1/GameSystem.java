@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 
 public class GameSystem {
     public final static GameSystem Instance = new GameSystem();
+    public final static float inelastic_k = .7f;
 
     // Game stuff
     private boolean isPaused = false;

@@ -9,16 +9,19 @@ import android.view.SurfaceView;
 
 import java.util.Random;
 
-public class ShapeEntity implements EntityBase, Collidable {
+public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     private boolean isDone = false, animation = true;
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    private float xPos = new Random().nextInt(840) + 120;
-    private float yPos = 1920, yPosPrev = 1785;
+    //private float xPos = new Random().nextInt(840) + 120;
+    private float /*yPos = 1920,*/ yPosPrev = 1785;
     private float offset, imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
+
+    private Vector3 pos = new Vector3(new Random().nextInt(840) + 120, 1920);
+    private Vector3 vel;
 
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -103,15 +106,15 @@ public class ShapeEntity implements EntityBase, Collidable {
     public void Update(float _dt) {
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
-            if (yPos > (yPosPrev)){
-                yPos -= _dt * 100;
+            if (pos.y > (yPosPrev)){
+                pos.y -= _dt * 100;
             }
             else{
                 animation = false;
             }
         }
         else{
-            yPosPrev = yPos - 150;
+            yPosPrev = pos.y - 150;
         }
 
         if (health <= 0){
@@ -119,7 +122,7 @@ public class ShapeEntity implements EntityBase, Collidable {
         }
         rotation += _dt * 10;
 
-        if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.ball.GetPosY(), GameSystem.Instance.ball.GetRadius())){
+        if (Collision.SphereToSphere(pos.x, pos.y, imgRadius, GameSystem.Instance.ball.GetPosX(), GameSystem.Instance.ball.GetPosY(), GameSystem.Instance.ball.GetRadius())){
             health--;
         }
 
@@ -128,7 +131,7 @@ public class ShapeEntity implements EntityBase, Collidable {
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
-        transform.setTranslate(xPos, yPos);
+        transform.setTranslate(pos.x, pos.y);
 //        if (shape_type == 1 || shape_type == 2) {
 //            transform.setRotate(rotation);
 //        }
@@ -220,13 +223,19 @@ public class ShapeEntity implements EntityBase, Collidable {
 
     @Override
     public float GetPosX() {
-        return xPos;
+        return pos.x;
     }
 
     @Override
     public float GetPosY() {
-        return yPos;
+        return pos.y;
     }
+
+    @Override
+    public Vector3 GetPos() { return pos; }
+
+    @Override
+    public Vector3 GetVel() { return vel; }
 
     @Override
     public float GetRadius() {
@@ -241,5 +250,13 @@ public class ShapeEntity implements EntityBase, Collidable {
     public void OnHit(Collidable _other) {
 
     }
+
+    @Override
+    public void OnHit(PhysicsObject _other) {
+
+    }
+
+    @Override
+    public String GetPhysicsType() { return ""; }
 
 }

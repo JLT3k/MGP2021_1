@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 import java.util.Random;
 
 public class ShapeEntity implements EntityBase, Collidable {
-    private boolean isDone = false, animation = true, respawn = false;
+    private boolean isDone = false, animation = true;
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
@@ -89,13 +89,14 @@ public class ShapeEntity implements EntityBase, Collidable {
     @Override
     public void Init(SurfaceView _view) {
         shape_type = new Random().nextInt(3);
-        health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
+        health = new Random().nextInt(1) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         InitShapes(_view);
     }
 
     @Override
     public void Update(float _dt) {
+        System.out.println(GameSystem.Instance.GetPoints());
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
             if (yPos > (yPosPrev)){
@@ -126,11 +127,6 @@ public class ShapeEntity implements EntityBase, Collidable {
             xPos = 9999;
             yPos = 9999;
         }
-        else if (xPos == 9999){
-            respawn = true;
-        }
-        Respawn();
-
 
     }
 
@@ -141,17 +137,12 @@ public class ShapeEntity implements EntityBase, Collidable {
         renderShapes(_canvas, transform);
     }
 
-    public void Respawn()
-    {
-        if (respawn)
-        {
-            xPos = new Random().nextInt(800) + 120;
-            yPos = 1920;
-            yPosPrev = 1785;
-            shape_type = new Random().nextInt(3);
-            health = new Random().nextInt(1 + GameSystem.Instance.GetPoints()) + 1;
-            respawn = false;
-        }
+    public void Respawn() {
+        xPos = new Random().nextInt(800) + 120;
+        yPos = 1920;
+        yPosPrev = 1785;
+        shape_type = new Random().nextInt(3);
+        health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
     }
 
     public void renderShapes(Canvas _canvas, Matrix transform)
@@ -254,6 +245,10 @@ public class ShapeEntity implements EntityBase, Collidable {
 
     public void SetAnimation(boolean animation) {
         this.animation = animation;
+    }
+
+    public boolean GetAnimation() {
+        return animation;
     }
 
     @Override

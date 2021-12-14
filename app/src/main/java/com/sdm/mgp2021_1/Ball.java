@@ -42,11 +42,13 @@ public class Ball implements EntityBase, Collidable {
     @Override
     public void Update(float _dt) {
         if (!GameSystem.Instance.GetIsPaused()) {
-            if (TouchManager.Instance.HasTouch() && !shot && !move && !turn) {
-                xTouchPos = TouchManager.Instance.GetPosX();
-                yTouchPos = TouchManager.Instance.GetPosY();
-                shot = true;
-                System.out.print("Shot!");
+            for (int i = 0; i < 20; ++i) {
+                if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
+                    xTouchPos = TouchManager.Instance.GetPosX();
+                    yTouchPos = TouchManager.Instance.GetPosY();
+                    shot = true;
+                    System.out.print("Shot!");
+                }
             }
         }
         if (shot){
@@ -75,7 +77,7 @@ public class Ball implements EntityBase, Collidable {
             }
         }
 
-        if (xPos >= 1006 || xPos <= 0) {
+        if (xPos > 1006 || xPos < 0) {
             flipped = !flipped;
             //System.out.println(flipped);
         }

@@ -10,16 +10,16 @@ import android.view.SurfaceView;
 public class Ball implements EntityBase, Collidable, PhysicsObject {
     private boolean isDone = false, shot = false, move = false, shotRight = false, flipped = false, turn = false;
     int ScreenWidth, ScreenHeight;
-    private float /*xPos, yPos,*/ xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
+    private float xPos, yPos, xTouchPos, yTouchPos, xPosPrev, yPosPrev, acceleration, imgRadius;
     private SurfaceView view = null;
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
     // In any entity class, under public void Init(SurfaceView _view) {}
     private Bitmap ball = null;
 
-    //private float xVel, yVel;
+    private float xVel, yVel;
 
-    private Vector3 pos, vel;
+    //private Vector3 pos, vel;
 
     //check if anything to do with entity (use for pause)
     @Override
@@ -36,8 +36,8 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         acceleration = 0;
-        pos.x = 488.f;
-        pos.y = 144.f;
+        xPos = 488.f;
+        yPos = 144.f;
         xPosPrev = 488.f;
         yPosPrev = 144.f;
         imgRadius = ball.getHeight() * 0.5f;
@@ -51,44 +51,43 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
                     xTouchPos = TouchManager.Instance.GetPosX();
                     yTouchPos = TouchManager.Instance.GetPosY();
                     shot = true;
-                    System.out.print("Shot!");
                 }
             }
         }
         if (shot){
-            if (pos.x < xTouchPos)
+            if (xPos < xTouchPos)
                 shotRight = true;
 
-            if (pos.x > xTouchPos)
+            if (xPos > xTouchPos)
                 shotRight = false;
 
             shot = false;
             move = true;
         }
         if (move) {
-            pos.y += _dt * (yTouchPos - yPosPrev);
-            pos.y -= _dt * acceleration;
+            yPos += _dt * (yTouchPos - yPosPrev);
+            yPos -= _dt * acceleration;
             if (shotRight) {
                 if (!flipped)
-                    pos.x += _dt * 500;
+                    xPos += _dt * 500;
                 else
-                    pos.x -= _dt * 500;
+                    xPos -= _dt * 500;
             } else {
                 if (!flipped)
-                    pos.x -= _dt * 500;
+                    xPos -= _dt * 500;
                 else
-                    pos.x += _dt * 500;
+                    xPos += _dt * 500;
             }
         }
 
-        if (pos.x >= 1006 || pos.x <= 0) {
+        if (xPos > 1006 || xPos < 0) {
             flipped = !flipped;
             //System.out.println(flipped);
         }
-        if (pos.y > 2000 || pos.y < -100) {
+        if (yPos > 2000 || yPos < -100) {
             flipped = false;
-            pos.x = 488.f;
-            pos.y = 144.f;
+            xPos = 488.f;
+            yPos = 144.f;
             acceleration = 0;
             move = false;
             turn = true;
@@ -99,8 +98,8 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     public void Reset () {
         flipped = false;
-        pos.x = 488.f;
-        pos.y = 144.f;
+        xPos = 488.f;
+        yPos = 144.f;
         acceleration = 500;
         move = false;
         turn = true;
@@ -109,7 +108,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
-        transform.setTranslate(pos.x, pos.y);
+        transform.setTranslate(xPos, yPos);
         _canvas.drawBitmap(ball,transform,null);
     }
 
@@ -146,19 +145,19 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public float GetPosX() {
-        return pos.x;
+        return xPos;
     }
 
     @Override
     public float GetPosY() {
-        return pos.y;
+        return yPos;
     }
 
     @Override
-    public Vector3 GetPos() { return pos; }
+    public Vector3 GetPos() { return null; }
 
     @Override
-    public Vector3 GetVel() { return vel; }
+    public Vector3 GetVel() { return null; }
 
     public boolean GetTurn(){ return turn; }
 

@@ -4,24 +4,28 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 import java.util.Random;
 
 public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
-    private boolean isDone = false, animation = true, respawn = false;
+    private boolean isDone = false, animation = true;
     private Bitmap bmp = null, scaledbmp = null;
     public int ScreenWidth, ScreenHeight;
     private int shape_type;
-    //private float xPos = new Random().nextInt(800) + 120;
-    private float /*yPos = 1920,*/ yPosPrev = 1785;
+    private float xPos = 9999;
+    private float yPos = 9999, yPosPrev = 9999;
     private float offset, imgRadius, rotation;
     private SurfaceView view = null;
     private int health;
+    Paint paint = new Paint(); // Under android graphic library.
+    Typeface myfont;  // USe for loading font
 
-    private Vector3 pos = new Vector3(new Random().nextInt(800) + 120, 1920);
-    private Vector3 vel;
+    //private Vector3 pos = new Vector3(new Random().nextInt(800) + 120, 1920);
+    //private Vector3 vel;
 
     Matrix tfx = new Matrix();
     DisplayMetrics metrics;
@@ -94,23 +98,23 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(1) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
+        myfont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         InitShapes(_view);
     }
 
     @Override
     public void Update(float _dt) {
-        System.out.println(GameSystem.Instance.GetPoints());
         imgRadius = yellowCircle.getHeight() * 0.5f;
         if (animation){
-            if (pos.y > (yPosPrev)){
-                pos.y -= _dt * 100;
+            if (yPos > (yPosPrev)){
+                yPos -= _dt * 100;
             }
             else{
                 animation = false;
             }
         }
         else{
-            yPosPrev = pos.y - 180;
+            yPosPrev = yPos - 180;
         }
 
         if (health <= 0 && !IsDone()){
@@ -120,15 +124,18 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         rotation += _dt * 10;
 
         for (int i = 0; i < 5; ++i) {
-            if (Collision.SphereToSphere(pos.x, pos.y, imgRadius, GameSystem.Instance.ball[i].GetPosX(), GameSystem.Instance.ball[i].GetPosY(), GameSystem.Instance.ball[i].GetRadius())) {
+            if (Collision.SphereToSphere(xPos, yPos, imgRadius, GameSystem.Instance.ball[i].GetPosX(), GameSystem.Instance.ball[i].GetPosY(), GameSystem.Instance.ball[i].GetRadius())) {
                 health--;
                 GameSystem.Instance.ball[i].Reset();
             }
         }
+        if (yPos > 1920) {
+            // Lose condition
+        }
 
         if (IsDone()) {
-            pos.x = 9999;
-            pos.y = 9999;
+            xPos = 9999;
+            yPos = 9999;
         }
 
     }
@@ -136,13 +143,23 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
-        transform.setTranslate(pos.x, pos.y);
+        transform.setTranslate(xPos, yPos);
         renderShapes(_canvas, transform);
+        RenderHealth(_canvas);
+    }
+
+    public void RenderHealth(Canvas _canvas) {
+        paint.setARGB(255, 0,0,0);
+        paint.setStrokeWidth(200);
+        paint.setTypeface(myfont);
+        paint.setTextSize(70);
+        _canvas.drawText("" + Math.round(health), xPos + 60, yPos + 100 , paint);
     }
 
     public void Respawn() {
-        pos.x = new Random().nextInt(800) + 120;
-        pos.y = 1920;
+        SetIsDone(false);
+        xPos = new Random().nextInt(800) + 120;
+        yPos = 1920;
         yPosPrev = 1785;
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
@@ -233,19 +250,19 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public float GetPosX() {
-        return pos.x;
+        return xPos;
     }
 
     @Override
     public float GetPosY() {
-        return pos.y;
+        return yPos;
     }
 
     @Override
-    public Vector3 GetPos() { return pos; }
+    public Vector3 GetPos() { return null; }
 
     @Override
-    public Vector3 GetVel() { return vel; }
+    public Vector3 GetVel() { return null; }
 
     @Override
     public float GetRadius() {

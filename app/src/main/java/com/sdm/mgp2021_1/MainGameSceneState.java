@@ -54,6 +54,7 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
+        // Update balls timer for shooting of balls
         for (int i = 0; i < NoOfBalls; ++i) {
             if (!GameSystem.Instance.ball[i].GetTimerStart()) {
                 GameSystem.Instance.ball[i].SetTimer((i * 0.5f));
@@ -61,17 +62,20 @@ public class MainGameSceneState implements StateBase {
             GameSystem.Instance.ball[i].Update(_dt);
         }
 
+        // Reset all balls after last ball despawned
         if (GameSystem.Instance.ball[NoOfBalls - 1].GetPosY() > 2000) {
             for (int i = 0; i < NoOfBalls; ++i) {
                 GameSystem.Instance.ball[i].Reset();
             }
         }
 
+        // Update all spawned shapes
         for (int i = 0; i < Spawned; ++i) {
             GameSystem.Instance.Shape[i].Update(_dt);
         }
         EntityManager.Instance.Update(_dt);
 
+        // Check if ball reached bottom of screen before spawning and moving new shape
         if (GameSystem.Instance.ball[NoOfBalls - 1].GetTurn()){
             GameSystem.Instance.Shape[Index].Respawn();
             for (int i = 0; i < Spawned; ++i) {
@@ -90,6 +94,7 @@ public class MainGameSceneState implements StateBase {
             Spawned = 20;
         }
 
+        // Respawn and reuse destroyed shapes
         for (int i = 0; i <= Index; ++i) {
             if (GameSystem.Instance.Shape[i].IsDone()) {
                 Index = i;
@@ -97,7 +102,7 @@ public class MainGameSceneState implements StateBase {
             }
         }
 
-
+        // Increase number of balls based on points
         if (GameSystem.Instance.GetPoints() > 40){
             NoOfBalls = 5;
         }

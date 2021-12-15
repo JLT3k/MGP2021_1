@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 
 import java.util.Random;
 
@@ -69,6 +71,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     public void InitShapes(SurfaceView _view)
     {
+        // Initialize every single shape to be used
         yellowCircle = BitmapFactory.decodeResource(_view.getResources(), R.drawable.yellowcircle);
         orangeCircle = BitmapFactory.decodeResource(_view.getResources(), R.drawable.orangecircle);
         redCircle = BitmapFactory.decodeResource(_view.getResources(), R.drawable.redcircle);
@@ -96,21 +99,26 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void Init(SurfaceView _view) {
+        // Shape type: 0 = circle, 1 = square, 2 - triangle
         shape_type = new Random().nextInt(3);
+        // health is RNG on player points
         health = new Random().nextInt(1) + 1;
         bmp = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
         myfont = Typeface.createFromAsset(_view.getContext().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
         InitShapes(_view);
+        // Initialize outside of screen first before setting
         pos = new Vector3(9999, 9999);
         vel = new Vector3();
     }
 
     @Override
     public void Update(float _dt) {
+        // Check if game is paused
         if (GameSystem.Instance.GetIsPaused()) {
             return;
         }
         imgRadius = yellowCircle.getHeight() * 0.5f;
+        // Animation for when shape moves up from original pos
         if (animation){
             if (pos.y > (yPosPrev)){
                 pos.y -= _dt * 100;
@@ -123,12 +131,13 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             yPosPrev = pos.y - 180;
         }
 
+        // Add point when shape is destroyed
         if (health <= 0 && !IsDone()){
             GameSystem.Instance.AddPoint();
             SetIsDone(true);
         }
-        rotation += _dt * 10;
 
+        // Check collision of each ball with shape
         for (int i = 0; i < 5; ++i) {
             if (Collision.SphereToSphere(GameSystem.Instance.ball[i], this)) {
                 health--;
@@ -136,11 +145,13 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             }
         }
 
+        // Set shape pos far away if destroyed
         if (IsDone()) {
             pos.x = 9999;
             pos.y = 9999;
         }
 
+        // Lose if shape exceed ball height
         if (pos.y < 200) {
             Intent intent = new Intent();
             intent.setClass(GamePage.Instance, LoseScreen.class);
@@ -148,18 +159,24 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             GamePage.Instance.startActivity(intent);
         }
 
-
+        // Animation purposes
+        rotation +=_dt * 25;
     }
 
     @Override
     public void Render(Canvas _canvas) {
         Matrix transform = new Matrix();
+        transform.reset();
         transform.setTranslate(pos.x, pos.y);
+        // Rotate constantly if shape is square or triangle
+        if (shape_type > 0)
+            transform.postRotate(rotation, pos.x + imgRadius, pos.y + imgRadius);
         renderShapes(_canvas, transform);
         RenderHealth(_canvas);
     }
 
     public void RenderHealth(Canvas _canvas) {
+        // Render health text on shape
         paint.setARGB(255, 0,0,0);
         paint.setStrokeWidth(200);
         paint.setTypeface(myfont);
@@ -171,6 +188,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     }
 
     public void Respawn() {
+        // Respawn and reset shape variables
         SetIsDone(false);
         pos.x = new Random().nextInt(800) + 120;
         pos.y = 1920;

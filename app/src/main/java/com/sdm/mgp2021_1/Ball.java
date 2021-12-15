@@ -49,6 +49,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
         if (GameSystem.Instance.GetIsPaused()) {
             return;
         }
+        // Timer for spawning of ball
         if (timerStart)
             timer -= _dt;
         for (int i = 0; i < 20; ++i) {
@@ -63,7 +64,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             timerStart = false;
             shot = true;
         }
-
+        // Set velocity upon being shot
         if (shot) {
             vel.x = xTouchPos - pos.x;
             vel.y = yTouchPos - pos.y;
@@ -72,11 +73,13 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             shot = false;
             move = true;
         }
+        // Update ball pos with velocity
         if (move) {
             vel = Physics.UpdateGravity(vel, _dt);
             pos = Physics.UpdatePosition(this, _dt);
         }
 
+        // Flip ball velocity if hit sides
         if ((pos.x > 1006 && vel.x > 0) || (pos.x < 0 && vel.x < 0)) {
             vel.x *= -1;
         }
@@ -84,6 +87,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     }
 
     public void Reset () {
+        // Reset ball variables
         pos.Set(488.f, 144.f);
         vel.Set(0, 0);
         shot = false;

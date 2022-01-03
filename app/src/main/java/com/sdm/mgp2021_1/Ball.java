@@ -168,7 +168,6 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void OnHit(Collidable _other) {
-
     }
 
     @Override

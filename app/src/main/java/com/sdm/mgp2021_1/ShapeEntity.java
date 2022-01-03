@@ -9,7 +9,12 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.nfc.Tag;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
@@ -24,6 +29,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     private float yPosPrev = 9999;
     private float imgRadius, rotation;
     private SurfaceView view = null;
+    private Vibrator _vibrator;
     private int health;
     Paint paint = new Paint(); // Under android graphic library.
     Typeface myfont;  // USe for loading font
@@ -109,6 +115,22 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Initialize outside of screen first before setting
         pos = new Vector3(9999, 9999);
         vel = new Vector3();
+        _vibrator = (Vibrator)_view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
+    }
+
+    public void startVibrate(){
+        if (Build.VERSION.SDK_INT >= 26)
+        {
+            _vibrator.vibrate(VibrationEffect.createOneShot(150,10));
+        }
+        else{
+            long pattern[] = {0,50,0};
+            _vibrator.vibrate(pattern, -1);
+        }
+    }
+
+    public void stopVibrate(){
+        _vibrator.cancel();
     }
 
     @Override
@@ -141,7 +163,17 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         for (int i = 0; i < 5; ++i) {
             if (Collision.SphereToSphere(GameSystem.Instance.ball[i], this)) {
                 health--;
+                int random_audio = new Random().nextInt(2);
+                if (random_audio == 0)
+                    AudioManager.Instance.PlayAudio(R.raw.hit1, 1.0f);
+                else
+                    AudioManager.Instance.PlayAudio(R.raw.hit2, 1.0f);
+                startVibrate();
                 GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
+                Log.v("/","Hit");
+            }
+            else {
+                stopVibrate();
             }
         }
 

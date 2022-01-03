@@ -103,16 +103,16 @@ public class MainGameSceneState implements StateBase {
         }
 
         // Increase number of balls based on points
-        if (GameSystem.Instance.GetPoints() > 40){
+        if (GameSystem.Instance.GetPoints() >= 40){
             NoOfBalls = 5;
         }
-        else if (GameSystem.Instance.GetPoints() > 30){
+        else if (GameSystem.Instance.GetPoints() >= 30){
             NoOfBalls = 4;
         }
-        else if (GameSystem.Instance.GetPoints() > 20){
+        else if (GameSystem.Instance.GetPoints() >= 20){
             NoOfBalls = 3;
         }
-        else if (GameSystem.Instance.GetPoints() > 10){
+        else if (GameSystem.Instance.GetPoints() >= 10){
             NoOfBalls = 2;
         }
 

@@ -156,6 +156,11 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Add point when shape is destroyed
         if (health <= 0 && !IsDone()){
             GameSystem.Instance.AddPoint();
+            int currScore = GameSystem.Instance.GetIntFromSave("Score");
+            currScore++;
+            GameSystem.Instance.SaveEditBegin();
+            GameSystem.Instance.SetIntInSave("Score", currScore);
+            GameSystem.Instance.SaveEditEnd();
             SetIsDone(true);
         }
 

@@ -9,7 +9,12 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class GamePage extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+
+public class GamePage extends AppCompatActivity {
 
     public static GamePage Instance = null;
 
@@ -20,6 +25,15 @@ public class GamePage extends Activity {
         //To make fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Hide titlebar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  // Hide topbar
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        FacebookSdk.setApplicationId("254725833306068");
+        FacebookSdk.isInitialized();
+
+        if (BuildConfig.DEBUG){
+            FacebookSdk.setIsDebugEnabled(true);
+            FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        }
 
         Instance = this;
 

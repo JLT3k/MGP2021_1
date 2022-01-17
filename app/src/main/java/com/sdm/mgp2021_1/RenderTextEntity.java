@@ -80,6 +80,12 @@ public class RenderTextEntity implements EntityBase{
         else
             _canvas.drawText("" + GameSystem.Instance.GetPoints(), 505, 100, paint);
 
+        // Draw Highscore
+//        if (GameSystem.Instance.GetPoints() < 10)
+            _canvas.drawText("HighScore: " + GameSystem.Instance.GetHighScore(), 320, 180, paint);
+//        else
+//            _canvas.drawText("" + GameSystem.Instance.GetHighScore(), 505, 150, paint);
+
        /* if (GameSystem.Instance.GetIntFromSave("Score") < 10)
             _canvas.drawText("" + GameSystem.Instance.GetIntFromSave("Score"), 520, 100, paint);
         else

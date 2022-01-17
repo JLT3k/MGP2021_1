@@ -21,6 +21,7 @@ public class GameSystem {
     Ball[] ball = new Ball[5];
     ShapeEntity[] Shape = new ShapeEntity[20];
     private int points;
+    private int highScore;
 
 
     // Singleton Pattern : Blocks others from creating
@@ -105,11 +106,20 @@ public class GameSystem {
         return points;
     }
 
+    public int GetHighScore() { return highScore; }
+
     public void AddPoint() {
         points++;
     }
 
     public void ResetPoints() {
+        if (points > highScore)
+        {
+            highScore = points;
+            SaveEditBegin();
+            SetIntInSave("highScore", highScore);
+            SaveEditEnd();
+        }
         points = 0;
     }
 }

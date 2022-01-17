@@ -108,6 +108,7 @@ public class PausebuttonEntity implements EntityBase{
     public ENTITY_TYPE GetEntityType() {
         return ENTITY_TYPE.ENT_PAUSE;
     }
+
     public static PausebuttonEntity Create(){
         PausebuttonEntity result=new PausebuttonEntity();
         EntityManager.Instance.AddEntity(result,ENTITY_TYPE.ENT_PAUSE);

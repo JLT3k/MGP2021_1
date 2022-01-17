@@ -7,7 +7,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.SurfaceView;
+
+import java.util.Random;
 
 public class Ball implements EntityBase, Collidable, PhysicsObject {
     private boolean isDone = false, shot = false, move = false, shotRight = false, turn = true, timerStart = false;
@@ -46,7 +49,9 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void Update(float _dt) {
-        if (GameSystem.Instance.GetIsPaused()) {
+        if (GameSystem.Instance.GetIsPaused() || PauseConfirmDialogFragment.IsShown) {
+            timerStart = false;
+            shot = false;
             return;
         }
         // Timer for spawning of ball
@@ -57,7 +62,6 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
                 xTouchPos = TouchManager.Instance.GetPosX();
                 yTouchPos = TouchManager.Instance.GetPosY();
                 timerStart = true;
-
             }
         }
         if (timer < 0) {
@@ -77,6 +81,16 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
         if (move) {
             vel = Physics.UpdateGravity(vel, _dt);
             pos = Physics.UpdatePosition(this, _dt);
+            for (int i = 0; i < 5; ++i) {
+                if (Collision.SphereToSphere(GameSystem.Instance.ball[i], this)) {
+                    int random_audio = new Random().nextInt(2);
+                    if (random_audio == 0)
+                        AudioManager.Instance.PlayAudio(R.raw.hit1, 1.0f);
+                    else
+                        AudioManager.Instance.PlayAudio(R.raw.hit2, 1.0f);
+                    GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
+                }
+            }
         }
 
         // Flip ball velocity if hit sides

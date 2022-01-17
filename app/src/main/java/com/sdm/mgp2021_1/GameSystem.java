@@ -113,7 +113,7 @@ public class GameSystem {
     }
 
     public void ResetPoints() {
-        if (points > highScore)
+        if (points > GetIntFromSave("highScore"))
         {
             highScore = points;
             SaveEditBegin();

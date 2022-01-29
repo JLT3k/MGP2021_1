@@ -20,6 +20,7 @@ public class GameSystem {
     SharedPreferences.Editor editor = null;
     Ball[] ball = new Ball[5];
     ShapeEntity[] Shape = new ShapeEntity[20];
+
     private int points;
     private int highScore;
 

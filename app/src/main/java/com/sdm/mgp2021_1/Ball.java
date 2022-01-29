@@ -83,11 +83,6 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
             pos = Physics.UpdatePosition(this, _dt);
             for (int i = 0; i < 5; ++i) {
                 if (Collision.SphereToSphere(GameSystem.Instance.ball[i], this)) {
-                    int random_audio = new Random().nextInt(2);
-                    if (random_audio == 0)
-                        AudioManager.Instance.PlayAudio(R.raw.hit1, 1.0f);
-                    else
-                        AudioManager.Instance.PlayAudio(R.raw.hit2, 1.0f);
                     GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
                 }
             }

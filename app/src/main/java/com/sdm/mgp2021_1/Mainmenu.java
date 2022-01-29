@@ -1,6 +1,8 @@
 package com.sdm.mgp2021_1;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 import android.view.View;
@@ -10,6 +12,26 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.content.Intent;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+import com.facebook.Profile;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
+
+import com.facebook.share.Sharer;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
+
+import java.util.Arrays;
 
 // Created by TanSiewLan2021
 
@@ -17,6 +39,19 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
     //Define buttons
     private Button btn_start;
+
+    private CallbackManager callbackManager;
+    private LoginManager loginManager;
+
+    private static final String EMAIL = "email";
+
+    private LoginButton btn_fbLogin;
+    private ShareButton btn_fbShare;
+
+    private ShareDialog share_Dialog;
+    private int PICK_IMAGE_REQUEST = 1;
+
+    ProfilePictureView profile_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +64,69 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        FacebookSdk.setApplicationId("254725833306068");
+        FacebookSdk.isInitialized();
+
+        if (BuildConfig.DEBUG){
+            FacebookSdk.setIsDebugEnabled(true);
+            FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        }
+
         setContentView(R.layout.mainmenu);
 
         btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
 
+/*        btn_fbLogin = (LoginButton)findViewById(R.id.fb_login_button);
+        btn_fbLogin.setReadPermissions(Arrays.asList(EMAIL));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));*/
+
+        btn_fbShare = (ShareButton)findViewById(R.id.fb_share_button);
+
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));
+
+        callbackManager = CallbackManager.Factory.create();
+        loginManager = LoginManager.getInstance();
+
+        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                //boolean isLoggedIN = accessToken != null && !accessToken.isExpired();
+                loginResult.getAccessToken().getUserId();
+            }
+
+            @Override
+            public void onCancel() {
+                System.out.println("Login attempt canceled.");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                System.out.println("Login attempt failed.");
+            }
+        });
+
         StateManager.Instance.AddState(new Mainmenu());
+
+    }
+
+    // To share info on FB
+    public void shareScore(){
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.yellowcircle);
+
+        if (ShareDialog.canShow(SharePhotoContent.class)){
+            System.out.println("photoShown");
+            SharePhoto photo = new SharePhoto.Builder()
+                    .setBitmap(image)
+                    .setCaption("Thank you for playing MGP2020. Your final score is "+ 10)
+                    .build();
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(photo)
+                    .build();
+
+            btn_fbShare.setShareContent(content);
+        }
     }
 
     @Override
@@ -52,6 +144,11 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+        }
+        if (v == btn_fbShare)
+        {
+            System.out.println("Share button pressed");
+            shareScore();
         }
 
         startActivity(intent);
@@ -77,6 +174,13 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
     @Override
     public String GetName() {
         return "Mainmenu";
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        shareScore();
     }
 
     @Override

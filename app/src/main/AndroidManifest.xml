@@ -3,17 +3,25 @@
     package="com.sdm.mgp2021_1">
 
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
-    <meta-data android:name="com.facebook.sdk.ApplicationId"
-        android:value = "@string/facebook_app_id"/>
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider"
+            android:exported="false" /> <!-- allows app to access Facebook app features -->
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider"
+            android:exported="false" /> <!-- allows sharing to Messenger app -->
+    </queries>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="MGP2021"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MGP2021_1" >
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value = "@string/facebook_app_id"/>
 
         <provider
             android:authorities="com.facebook.app.FacebookContentProvider254725833306068"

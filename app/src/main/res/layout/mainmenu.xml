@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,11 +11,12 @@
         android:layout_width="114dp"
         android:layout_height="117dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"
-        android:layout_marginRight="148dp"
-        android:background="@drawable/playicon">
+        android:layout_marginTop="510dp"
+        android:layout_marginEnd="148dp"
+        android:background="@drawable/playicon"
+        tools:ignore="SpeakableTextPresentCheck">
         <!--android:text="Start"
         android:textColor="#bdfcf2"
         android:textSize="18dp">--></Button>
@@ -24,12 +26,20 @@
         android:layout_width="300dp"
         android:layout_height="116dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="55dp"
-        android:background="@drawable/title"
-        android:text="Back"
-        android:textColor="#bdfcf2"
-        android:textSize="18dp"></ImageView>
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="55dp"
+        android:background="@drawable/title"></ImageView>
+
+    <com.facebook.share.widget.ShareButton
+        android:id="@+id/fb_share_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"/>
+
+
 
 </RelativeLayout>

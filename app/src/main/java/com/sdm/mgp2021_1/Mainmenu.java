@@ -45,18 +45,18 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
     private static final String EMAIL = "email";
 
-    private LoginButton btn_fbLogin;
     private ShareButton btn_fbShare;
 
     private ShareDialog share_Dialog;
     private int PICK_IMAGE_REQUEST = 1;
+
+    AccessToken accessToken;
 
     ProfilePictureView profile_pic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Hide Title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -77,38 +77,12 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
 
-/*        btn_fbLogin = (LoginButton)findViewById(R.id.fb_login_button);
-        btn_fbLogin.setReadPermissions(Arrays.asList(EMAIL));
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));*/
-
         btn_fbShare = (ShareButton)findViewById(R.id.fb_share_button);
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));
-
         callbackManager = CallbackManager.Factory.create();
-        loginManager = LoginManager.getInstance();
-
-        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                //boolean isLoggedIN = accessToken != null && !accessToken.isExpired();
-                loginResult.getAccessToken().getUserId();
-            }
-
-            @Override
-            public void onCancel() {
-                System.out.println("Login attempt canceled.");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                System.out.println("Login attempt failed.");
-            }
-        });
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
 
         StateManager.Instance.AddState(new Mainmenu());
-
     }
 
     // To share info on FB

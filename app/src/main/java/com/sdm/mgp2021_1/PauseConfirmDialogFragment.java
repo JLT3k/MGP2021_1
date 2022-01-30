@@ -17,20 +17,37 @@ public class PauseConfirmDialogFragment extends DialogFragment {
         IsShown = true;
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Confirm Pause?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        // User triggered pause
-                        GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
-                        IsShown = false;
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        // User cancelled the pause
-                        IsShown = false;
-                    }
-                });
+        if (!GameSystem.Instance.GetIsPaused())
+            builder.setMessage("Confirm Pause?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // User triggered pause
+                            GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                            IsShown = false;
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // User cancelled the pause
+                            IsShown = false;
+                        }
+                    });
+        else
+            builder.setMessage("Confirm Unpause?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // User triggered pause
+                            GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                            IsShown = false;
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id){
+                            // User cancelled the pause
+                            IsShown = false;
+                        }
+                    });
+
         // Create the AlertDialog object and return itr
         return builder.create();
     }

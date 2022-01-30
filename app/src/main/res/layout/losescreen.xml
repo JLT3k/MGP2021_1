@@ -11,7 +11,7 @@
         android:layout_height="61dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="150dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/lose"
         android:text="Back"
@@ -24,7 +24,7 @@
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="480dp"
         android:layout_marginRight="70dp"
         android:background="@drawable/tryagain"></Button>
 
@@ -34,7 +34,7 @@
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="510dp"
+        android:layout_marginTop="540dp"
         android:layout_marginRight="143dp"
         android:background="@drawable/exit"></Button>
 

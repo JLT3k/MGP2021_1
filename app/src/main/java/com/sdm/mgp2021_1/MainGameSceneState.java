@@ -3,12 +3,17 @@ package com.sdm.mgp2021_1;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 // Created by TanSiewLan2021
 // Updated by Muhammad Rifdi
 
 public class MainGameSceneState implements StateBase {
     private float timer = 0.0f;
     private int Index = 0;
+    private int prevIndex = 0;
+    private int numberOfShapes = 0;
+    private int shapeIncrement = 0;
     private int Spawned = 1;
     private int NoOfBalls = 1;
     private boolean spawnExisting = false;
@@ -32,7 +37,12 @@ public class MainGameSceneState implements StateBase {
 
         GameSystem.Instance.ResetPoints();
         NoOfBalls = 1;
-        GameSystem.Instance.ball[0].Reset();
+        Spawned = 1;
+        for (int i = 0; i < 5; ++i)
+            GameSystem.Instance.ball[i].Reset();
+        for (int i = 0; i < 20; ++i)
+            GameSystem.Instance.Shape[i].SetIsDone(true);
+        GameSystem.Instance.SetIsPaused(false);
     }
 
     @Override
@@ -62,8 +72,8 @@ public class MainGameSceneState implements StateBase {
             GameSystem.Instance.ball[i].Update(_dt);
         }
 
-        // Reset all balls after last ball despawned
-        if (GameSystem.Instance.ball[NoOfBalls - 1].GetPosY() > 2000) {
+        // Reset all balls after last ball goes off screen
+        if (GameSystem.Instance.ball[NoOfBalls - 1].GetPosY() > 2200) {
             for (int i = 0; i < NoOfBalls; ++i) {
                 GameSystem.Instance.ball[i].Reset();
             }
@@ -75,20 +85,7 @@ public class MainGameSceneState implements StateBase {
         }
         EntityManager.Instance.Update(_dt);
 
-        // Check if ball reached bottom of screen before spawning and moving new shape
-        if (GameSystem.Instance.ball[NoOfBalls - 1].GetTurn()){
-            GameSystem.Instance.Shape[Index].Respawn();
-            for (int i = 0; i < Spawned; ++i) {
-                GameSystem.Instance.Shape[i].SetAnimation(true);
-            }
-            for (int i = 0; i < NoOfBalls; ++i) {
-                GameSystem.Instance.ball[i].SetTurn(false);
-            }
-            if (!spawnExisting)
-                Spawned++;
-            Index = Spawned;
-            spawnExisting = false;
-        }
+        spawnShapes();
 
         if (Spawned >= 20) {
             Spawned = 20;
@@ -102,22 +99,99 @@ public class MainGameSceneState implements StateBase {
             }
         }
 
-        // Increase number of balls based on points
-        if (GameSystem.Instance.GetPoints() >= 40){
-            NoOfBalls = 5;
+        for (int i = 0; i < NoOfBalls; ++i) {
+            if (GameSystem.Instance.ball[i].GetTurn()) {
+                // Increase number of balls based on points
+                if (GameSystem.Instance.GetPoints() >= 40) {
+                    NoOfBalls = 5;
+                } else if (GameSystem.Instance.GetPoints() >= 30) {
+                    NoOfBalls = 4;
+                } else if (GameSystem.Instance.GetPoints() >= 20) {
+                    NoOfBalls = 3;
+                } else if (GameSystem.Instance.GetPoints() >= 10) {
+                    NoOfBalls = 2;
+                }
+            }
         }
-        else if (GameSystem.Instance.GetPoints() >= 30){
-            NoOfBalls = 4;
-        }
-        else if (GameSystem.Instance.GetPoints() >= 20){
-            NoOfBalls = 3;
-        }
-        else if (GameSystem.Instance.GetPoints() >= 10){
-            NoOfBalls = 2;
-        }
+    }
 
+    private void spawnShapes()
+    {
+        // Check if ball reached bottom of screen before spawning and moving new shape
+        if (GameSystem.Instance.ball[NoOfBalls - 1].GetTurn()){
+            // Set shape number spawn random
+            if (shapeIncrement == 0)
+                numberOfShapes = new Random().nextInt(3) + 1;
+            System.out.println(numberOfShapes);
+            // Spawn 1 shape
+            if (numberOfShapes == 1) {
+                GameSystem.Instance.Shape[Index].Respawn();
+                if (!spawnExisting)
+                    Spawned++;
+                Index = Spawned;
+                spawnExisting = false;
+                shapeIncrement = 3;
+            }
+            // Spawn 2 shapes
+            else if (numberOfShapes == 2){
+                GameSystem.Instance.Shape[Index].Respawn();
+                if (shapeIncrement == 1) {
+                    int shape_dist = new Random().nextInt(251) + 170;
+                    if (GameSystem.Instance.Shape[prevIndex].GetPosX() + shape_dist > 920)
+                        GameSystem.Instance.Shape[Index].SetPosX(GameSystem.Instance.Shape[prevIndex].GetPosX() - shape_dist);
+                    else /*if (GameSystem.Instance.Shape[prevIndex].GetPosX() - 70 < 130)*/
+                        GameSystem.Instance.Shape[Index].SetPosX(GameSystem.Instance.Shape[prevIndex].GetPosX() + shape_dist);
+                }
+                if (!spawnExisting)
+                    Spawned++;
+                if (shapeIncrement == 0) {
+                    prevIndex = Index;
+                    shapeIncrement++;
+                }
+                else
+                    shapeIncrement = 3;
+                Index = Spawned;
+                spawnExisting = false;
+            }
+            // Spawn 3 shapes
+            else if (numberOfShapes == 3){
+                // Center shape range = 450 --- 600
+                // Left shape range = 150 --- 300
+                // Right shape range = 750 --- 900
+                GameSystem.Instance.Shape[Index].Respawn();
+                if (shapeIncrement == 0) {
+                    int shape_dist = new Random().nextInt(201) + 450;
+                    GameSystem.Instance.Shape[Index].SetPosX(shape_dist);
+                }
+                else if (shapeIncrement == 1) {
+                    int shape_dist = new Random().nextInt(151) + 150;
+                    GameSystem.Instance.Shape[Index].SetPosX(shape_dist);
+                }
+                else if (shapeIncrement == 2) {
+                    int shape_dist = new Random().nextInt(201) + 750;
+                    GameSystem.Instance.Shape[Index].SetPosX(shape_dist);
+                }
+                if (!spawnExisting)
+                    Spawned++;
+                Index = Spawned;
+                spawnExisting = false;
+                shapeIncrement++;
+            }
+            // Run shape go up animation and ball set turn to false
+            if (shapeIncrement == 3) {
+                for (int i = 0; i < Spawned; ++i) {
+                    GameSystem.Instance.Shape[i].SetAnimation(true);
+                }
+                for (int i = 0; i < NoOfBalls; ++i) {
+                    GameSystem.Instance.ball[i].SetTurn(false);
+                }
+                shapeIncrement = 0;
+            }
+        }
     }
 }
+
+
 
 
 

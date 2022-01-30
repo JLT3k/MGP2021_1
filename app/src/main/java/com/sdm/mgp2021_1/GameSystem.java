@@ -10,7 +10,7 @@ import android.view.SurfaceView;
 public class GameSystem {
     public final static GameSystem Instance = new GameSystem();
     public final static String SHARED_PREF_ID = "GameSaveFile";
-    public final static float inelastic_k = .6f;
+    public final static float inelastic_k = .5f;
     public final static float m_gravity = 2000f;
     public final static float m_terminal_vel = 3000.f;
 

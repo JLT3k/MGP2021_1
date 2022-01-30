@@ -42,28 +42,30 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
 
-        pos = new Vector3(488.f, 144.f);
+        pos = new Vector3(485.f, 158.f);
         vel = new Vector3();
         imgRadius = ball.getHeight() * 0.5f;
     }
 
     @Override
     public void Update(float _dt) {
-        if (GameSystem.Instance.GetIsPaused() || PauseConfirmDialogFragment.IsShown) {
+        if (GameSystem.Instance.GetIsPaused()) {
             timerStart = false;
             shot = false;
             return;
         }
+        for (int i = 0; i < 20; ++i) {
+            if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
+                if (TouchManager.Instance.GetPosY() > 200) {
+                    xTouchPos = TouchManager.Instance.GetPosX();
+                    yTouchPos = TouchManager.Instance.GetPosY();
+                    timerStart = true;
+                }
+            }
+        }
         // Timer for spawning of ball
         if (timerStart)
             timer -= _dt;
-        for (int i = 0; i < 20; ++i) {
-            if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
-                xTouchPos = TouchManager.Instance.GetPosX();
-                yTouchPos = TouchManager.Instance.GetPosY();
-                timerStart = true;
-            }
-        }
         if (timer < 0) {
             timerStart = false;
             shot = true;
@@ -97,7 +99,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     public void Reset () {
         // Reset ball variables
-        pos.Set(488.f, 144.f);
+        pos.Set(485.f, 158.f);
         vel.Set(0, 0);
         shot = false;
         move = false;

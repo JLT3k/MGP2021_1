@@ -73,7 +73,6 @@ public class PausebuttonEntity implements EntityBase{
                     newPauseConfirm.show(GamePage.Instance.getFragmentManager(), "PauseConfirm");
                 }
                 buttonDelay = 1;
-
             }
         } else
             Paused = false;

@@ -150,13 +150,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             }
         }
         else{
-            yPosPrev = pos.y - 180;
-        }
-
-        // Add point when shape is destroyed
-        if (health <= 0 && !IsDone()){
-            GameSystem.Instance.AddPoint();
-            SetIsDone(true);
+            yPosPrev = pos.y - 200;
         }
 
         // Check collision of each ball with shape
@@ -175,6 +169,12 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             else {
                 stopVibrate();
             }
+        }
+
+        // Add point when shape is destroyed
+        if (health <= 0 && !IsDone()){
+            GameSystem.Instance.AddPoint();
+            SetIsDone(true);
         }
 
         // Set shape pos far away if destroyed
@@ -222,9 +222,9 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     public void Respawn() {
         // Respawn and reset shape variables
         SetIsDone(false);
-        pos.x = new Random().nextInt(800) + 120;
-        pos.y = 1920;
-        yPosPrev = 1785;
+        pos.x = new Random().nextInt(781) + 130;
+        pos.y = 2180;
+        yPosPrev = 1950;
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
     }
@@ -320,6 +320,10 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     @Override
     public float GetPosY() {
         return pos.y;
+    }
+
+    public void SetPosX(float xPos) {
+        pos.x = xPos;
     }
 
     @Override

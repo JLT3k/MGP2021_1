@@ -60,9 +60,6 @@ public class LoseScreen extends Activity implements OnClickListener, StateBase {
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
-            for (int i = 0; i < 5; ++i)
-                GameSystem.Instance.ball[i].Reset();
-
         }
         else if (v == btn_exit)
         {
@@ -70,7 +67,6 @@ public class LoseScreen extends Activity implements OnClickListener, StateBase {
             StateManager.Instance.ChangeState("Mainmenu"); // Default is like a loading page
         }
         startActivity(intent);
-
     }
 
     @Override

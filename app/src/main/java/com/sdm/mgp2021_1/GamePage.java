@@ -27,14 +27,6 @@ public class GamePage extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  // Hide topbar
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        FacebookSdk.setApplicationId("254725833306068");
-        FacebookSdk.isInitialized();
-
-        if (BuildConfig.DEBUG){
-            FacebookSdk.setIsDebugEnabled(true);
-            FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-        }
-
         Instance = this;
 
         setContentView(new GameView(this)); // Surfaceview = GameView

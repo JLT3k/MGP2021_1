@@ -57,23 +57,27 @@ public class QuitbuttonEntity implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-        buttonDelay += _dt;
+        buttonDelay -= _dt;
         if (GameSystem.Instance.GetIsPaused()) {
             if (TouchManager.Instance.HasTouch()) {
                 if (TouchManager.Instance.IsDown() && !Paused) {  // Check for collision
                     float imgRadius1 = scaledbmpP.getHeight() * 0.5f;
-                    if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) && buttonDelay >= 0.25) {
+                    if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1)) {
+                        buttonDelay = 0.25f;
                         Paused = true;
-                        Intent intent = new Intent();
-                        intent.setClass(GamePage.Instance, Mainmenu.class);
-                        StateManager.Instance.ChangeState("Mainmenu");
-                        GamePage.Instance.startActivity(intent);
-                        GameSystem.Instance.SetIsPaused(false);
+                        System.out.println("Quitting");
                     }
-                    buttonDelay = 1;
                 }
-            } else
+            }
+            if (buttonDelay <= 0 && Paused)
+            {
+                System.out.println(buttonDelay);
+                Intent intent = new Intent();
+                intent.setClass(GamePage.Instance, Mainmenu.class);
+                StateManager.Instance.ChangeState("Mainmenu");
+                GamePage.Instance.startActivity(intent);
                 Paused = false;
+            }
         }
     }
 

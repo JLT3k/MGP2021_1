@@ -33,13 +33,14 @@ public class RenderBackground implements EntityBase{
 
     @Override
     public void Init(SurfaceView _view){
-        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamepage3);
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamepage4);
 
         // Finding the screen width & height to allow the images to scale according to it.
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         screenWidth = metrics.widthPixels;
         screenHeight = metrics.heightPixels;
-
+        System.out.println(screenWidth);
+        System.out.println(screenHeight);
         scaledbmp = Bitmap.createScaledBitmap(bmp, screenWidth, screenHeight, true);
     }
 

@@ -38,7 +38,7 @@ import java.util.Arrays;
 public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
     //Define buttons
-    private Button btn_start;
+    private Button btn_start, btn_leaderboard;
 
     private CallbackManager callbackManager;
     private LoginManager loginManager;
@@ -76,6 +76,9 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         btn_start = (Button)findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
+
+        btn_leaderboard = (Button)findViewById(R.id.btn_leaderboard);
+        btn_leaderboard.setOnClickListener(this); //Set Listener to this button --> LB Button
 
         btn_fbShare = (ShareButton)findViewById(R.id.fb_share_button);
 
@@ -118,6 +121,12 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
             // intent --> to set to another class which another page or screen that we are launching.
             intent.setClass(this, GamePage.class);
             StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
+        }
+        if (v == btn_leaderboard)
+        {
+            // intent --> to set to another class which another page or screen that we are launching.
+            intent.setClass(this, LeaderboardPage.class);
+            StateManager.Instance.ChangeState("Leaderboard"); // Default is like a loading page
         }
         if (v == btn_fbShare)
         {

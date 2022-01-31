@@ -13,13 +13,29 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="510dp"
+        android:layout_marginTop="420dp"
         android:layout_marginEnd="148dp"
         android:background="@drawable/playicon"
         tools:ignore="SpeakableTextPresentCheck">
         <!--android:text="Start"
         android:textColor="#bdfcf2"
         android:textSize="18dp">--></Button>
+
+    <Button
+        android:id="@+id/btn_leaderboard"
+        android:layout_width="240dp"
+        android:layout_height="78dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="578dp"
+        android:layout_marginEnd="85dp"
+        android:text="Leaderboard"
+        android:textColor="#bdfcf2"
+        android:textSize="18dp">
+        <!--        android:background="@drawable/playicon"-->
+        <!--        tools:ignore="SpeakableTextPresentCheck"-->
+    </Button>
 
     <ImageView
         android:id="@+id/menutitle"

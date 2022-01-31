@@ -6,11 +6,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.app.DialogFragment;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 public class SaveScoreDialogFragment extends DialogFragment {
 
     public static boolean IsShown = false;
+    private String m_Text = "";
 
+    //Set the input
+    View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.text_input_name, (ViewGroup) getView(), false);
+    final EditText input = (EditText) viewInflated.findViewById(R.id.input);
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -18,7 +27,7 @@ public class SaveScoreDialogFragment extends DialogFragment {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Save Score")
-
+                .setView(viewInflated)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id){
                         // User triggered pause

@@ -13,9 +13,7 @@ public class Leaderboard {
     private Leaderboard(){
         for (int i = 0; i < leaderboardTable.length; i++)
         {
-            leaderboardTable[i] = new LeaderboardData("Empty", 0);
-            //leaderboardTable[i].score = 0;
-            //leaderboardTable[i].name = "Empty";
+            leaderboardTable[i] = new LeaderboardData("-- Empty --", 0);
         }
     }
 

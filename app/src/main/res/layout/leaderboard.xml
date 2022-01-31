@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="300dp"
+        android:layout_height="61dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="50dp"
+        android:text="Leaderboard"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="50dp" />
+
+
+    <TextView
+        android:id="@+id/text_name1"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="168dp"
+        android:layout_marginRight="141dp"
+        android:text="Name1"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score1"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="164dp"
+        android:layout_marginRight="52dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/text_name2"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="227dp"
+        android:layout_marginRight="142dp"
+        android:text="Name2"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score2"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="227dp"
+        android:layout_marginRight="52dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/text_name3"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="284dp"
+        android:layout_marginRight="142dp"
+        android:text="Name3"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score3"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="281dp"
+        android:layout_marginRight="50dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/text_name4"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="344dp"
+        android:layout_marginRight="141dp"
+        android:text="Name4"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score4"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="339dp"
+        android:layout_marginRight="50dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/text_name5"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="404dp"
+        android:layout_marginRight="139dp"
+        android:text="Name5"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score5"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="400dp"
+        android:layout_marginRight="50dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <TextView
+        android:id="@+id/text_name6"
+        android:layout_width="211dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="462dp"
+        android:layout_marginRight="139dp"
+        android:text="Name6"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/text_score6"
+        android:layout_width="89dp"
+        android:layout_height="63dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="461dp"
+        android:layout_marginRight="52dp"
+        android:text="00"
+        android:textAlignment="center"
+        android:textColor="#AAAAAA"
+        android:textSize="40dp" />
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="540dp"
+        android:layout_marginRight="143dp"
+        android:text="Return"
+        />
+</RelativeLayout>

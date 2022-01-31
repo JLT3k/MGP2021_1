@@ -15,7 +15,7 @@ public class GameSystem {
     public final static float m_gravity = 2000f;
     public final static float m_terminal_vel = 3000.f;
 
-    public final static int m_leaderboard_size = 10;
+    public final static int m_leaderboard_size = 6;
 
     // Game stuff
     private boolean isPaused = false;

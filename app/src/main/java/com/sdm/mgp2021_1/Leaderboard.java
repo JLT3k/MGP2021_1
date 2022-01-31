@@ -39,6 +39,12 @@ public class Leaderboard {
         // if new score is not higher or equal than any current score, it is not saved
     }
 
+    public void ForceAddToLeaderboard(int _position, String _name, int _score)
+    {
+        leaderboardTable[_position].name = _name;
+        leaderboardTable[_position].score = _score;
+    }
+
     public LeaderboardData GetLeaderboardData(int _position)
     {
         if (_position >= GameSystem.m_leaderboard_size) _position = GameSystem.m_leaderboard_size - 1;

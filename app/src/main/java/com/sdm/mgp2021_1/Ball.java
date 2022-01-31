@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 import java.util.Random;
 
 public class Ball implements EntityBase, Collidable, PhysicsObject {
-    private boolean isDone = false, shot = false, move = false, shotRight = false, turn = true, timerStart = false;
+    private boolean isDone = false, shot = false, move = false, timerStart = false;
     int ScreenWidth, ScreenHeight;
     private float xTouchPos, yTouchPos, imgRadius, timer;
     private SurfaceView view = null;
@@ -41,8 +41,11 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
     @Override
     public void Init(SurfaceView _view) {
         ball = BitmapFactory.decodeResource(_view.getResources(), R.drawable.whitecircle);
+        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
+        ScreenWidth = metrics.widthPixels;
+        ScreenHeight = metrics.heightPixels;
 
-        pos = new Vector3(485.f, 158.f);
+        pos = new Vector3(ScreenWidth/2.23f, ScreenHeight/13.6f);
         vel = new Vector3();
         imgRadius = ball.getHeight() * 0.5f;
     }
@@ -91,7 +94,7 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
         }
 
         // Flip ball velocity if hit sides
-        if ((pos.x > 1006 && vel.x > 0) || (pos.x < 0 && vel.x < 0)) {
+        if ((pos.x > (ScreenWidth/1.074f) && vel.x > 0) || (pos.x < 0 && vel.x < 0)) {
             vel.x *= -1;
         }
 
@@ -99,11 +102,10 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     public void Reset () {
         // Reset ball variables
-        pos.Set(485.f, 158.f);
+        pos.Set(ScreenWidth/2.23f, ScreenHeight/13.6f);
         vel.Set(0, 0);
         shot = false;
         move = false;
-        turn = true;
     }
 
     @Override
@@ -159,12 +161,6 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public Vector3 GetVel() { return vel; }
-
-    public boolean GetTurn(){ return turn; }
-
-    public void SetTurn(boolean turn){
-        this.turn = turn;
-    }
 
     public boolean GetTimerStart(){ return timerStart;}
 

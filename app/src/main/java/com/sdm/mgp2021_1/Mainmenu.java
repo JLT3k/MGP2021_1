@@ -90,7 +90,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
     // To share info on FB
     public void shareScore(){
-        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.yellowcircle);
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.gravityballicon);
 
         if (ShareDialog.canShow(SharePhotoContent.class)){
             System.out.println("photoShown");

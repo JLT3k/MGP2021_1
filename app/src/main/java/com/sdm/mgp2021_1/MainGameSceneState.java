@@ -49,6 +49,8 @@ public class MainGameSceneState implements StateBase {
     public void OnExit() {
         EntityManager.Instance.Clean();
         GamePage.Instance.finish();
+        Leaderboard.Instance.AddToLeaderboard("Default", GameSystem.Instance.GetPoints());
+        GameSystem.Instance.UpdateLeaderboardSave();
     }
 
     @Override

@@ -65,6 +65,8 @@ public class GameSystem {
         // We will add all of our states into the state manager here!
         StateManager.Instance.AddState(new Mainmenu());
         StateManager.Instance.AddState(new MainGameSceneState());
+
+        UpdateLeaderboardInstance();
     }
 
     public void SaveEditBegin()
@@ -135,13 +137,6 @@ public class GameSystem {
     }
 
     public void ResetPoints() {
-//        if (points > GetHighScore())
-//        {
-//            highScore.score = points;
-//            SaveEditBegin();
-//            SetIntInSave("highScore", highScore);
-//            SaveEditEnd();
-//        }
         points = 0;
     }
 
@@ -160,7 +155,7 @@ public class GameSystem {
     {
         for (int i = 0; i < m_leaderboard_size; i++)
         {
-            Leaderboard.Instance.AddToLeaderboard(GetStringFromSave("lbName" + i), GetIntFromSave("lbScore" + i));
+            Leaderboard.Instance.ForceAddToLeaderboard(i, GetStringFromSave("lbName" + i), GetIntFromSave("lbScore" + i));
         }
     }
 }

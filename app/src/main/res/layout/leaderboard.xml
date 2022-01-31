@@ -29,7 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="168dp"
         android:layout_marginRight="141dp"
-        android:text="Name1"
+        android:text="Best Score"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -55,7 +55,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="227dp"
         android:layout_marginRight="142dp"
-        android:text="Name2"
+        android:text="2nd Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -81,7 +81,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="284dp"
         android:layout_marginRight="142dp"
-        android:text="Name3"
+        android:text="3rd Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -107,7 +107,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="344dp"
         android:layout_marginRight="141dp"
-        android:text="Name4"
+        android:text="4th Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -133,7 +133,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="404dp"
         android:layout_marginRight="139dp"
-        android:text="Name5"
+        android:text="5th Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -159,7 +159,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="462dp"
         android:layout_marginRight="139dp"
-        android:text="Name6"
+        android:text="6th Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
         android:textSize="30dp" />
@@ -185,6 +185,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="540dp"
         android:layout_marginRight="143dp"
-        android:text="Return"
-        />
+        android:text="Return" />
 </RelativeLayout>

@@ -116,12 +116,15 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         pos = new Vector3(9999, 9999);
         vel = new Vector3();
         _vibrator = (Vibrator)_view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
+        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
+        ScreenWidth = metrics.widthPixels;
+        ScreenHeight = metrics.heightPixels;
     }
 
     public void startVibrate(){
         if (Build.VERSION.SDK_INT >= 26)
         {
-            _vibrator.vibrate(VibrationEffect.createOneShot(150,10));
+            _vibrator.vibrate(VibrationEffect.createOneShot(300,100));
         }
         else{
             long pattern[] = {0,50,0};
@@ -164,7 +167,6 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
                     AudioManager.Instance.PlayAudio(R.raw.hit2, 1.0f);
                 startVibrate();
                 GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
-                Log.v("/","Hit");
             }
             else {
                 stopVibrate();
@@ -203,7 +205,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Rotate constantly if shape is square or triangle
         if (shape_type > 0)
             transform.postRotate(rotation, pos.x + imgRadius, pos.y + imgRadius);
-        renderShapes(_canvas, transform);
+        RenderShapes(_canvas, transform);
         RenderHealth(_canvas);
     }
 
@@ -223,13 +225,13 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Respawn and reset shape variables
         SetIsDone(false);
         pos.x = new Random().nextInt(781) + 130;
-        pos.y = 2180;
-        yPosPrev = 1950;
+        pos.y = ScreenHeight + 32;
+        yPosPrev = ScreenHeight - 200;
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
     }
 
-    public void renderShapes(Canvas _canvas, Matrix transform)
+    public void RenderShapes(Canvas _canvas, Matrix transform)
     {
         if (shape_type == 0) {
             if (health >= 1 && health < 5)

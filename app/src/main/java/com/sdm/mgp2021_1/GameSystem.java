@@ -38,11 +38,7 @@ public class GameSystem {
 
     public void Update(float _deltaTime)
     {
-        for (int i = 0; i < 5; ++i) {
-            ball[i].Update(_deltaTime);
-        }
-        for (int i = 0; i < 20; ++i)
-            Shape[i].Update(_deltaTime);
+
     }
 
     public void Init(SurfaceView _view)

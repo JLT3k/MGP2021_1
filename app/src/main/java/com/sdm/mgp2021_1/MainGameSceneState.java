@@ -9,7 +9,6 @@ import java.util.Random;
 // Updated by Muhammad Rifdi
 
 public class MainGameSceneState implements StateBase {
-    private float timer = 0.0f;
     private int Index = 0, prevIndex = 0, numberOfShapes = 0, shapeIncrement = 0, ballIncrement = 0, Spawned = 1, NoOfBalls = 1;
     private boolean spawnExisting = false, turn = true;
 
@@ -33,6 +32,7 @@ public class MainGameSceneState implements StateBase {
         GameSystem.Instance.ResetPoints();
         NoOfBalls = 1;
         Spawned = 1;
+        turn = true;
         for (int i = 0; i < 5; ++i)
             GameSystem.Instance.ball[i].Reset();
         for (int i = 0; i < 20; ++i)

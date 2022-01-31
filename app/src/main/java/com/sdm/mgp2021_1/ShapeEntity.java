@@ -24,13 +24,10 @@ import java.util.Random;
 public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
     private boolean isDone = false, animation = true;
     private Bitmap bmp = null, scaledbmp = null;
-    public int ScreenWidth, ScreenHeight;
-    private int shape_type;
-    private float yPosPrev = 9999;
-    private float imgRadius, rotation;
+    public int ScreenWidth, ScreenHeight, shape_type, health;
+    private float yPosPrev = 9999, imgRadius, rotation, pop_animation_scale = 1;
     private SurfaceView view = null;
     private Vibrator _vibrator;
-    private int health;
     Paint paint = new Paint(); // Under android graphic library.
     Typeface myfont;  // USe for loading font
 
@@ -167,11 +164,15 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
                     AudioManager.Instance.PlayAudio(R.raw.hit2, 1.0f);
                 startVibrate();
                 GameSystem.Instance.ball[i].OnHit((PhysicsObject)this);
+                pop_animation_scale = 1.25f;
             }
             else {
                 stopVibrate();
             }
         }
+
+        if (pop_animation_scale > 1)
+            pop_animation_scale -= _dt * 2;
 
         // Add point when shape is destroyed
         if (health <= 0 && !IsDone()){
@@ -205,6 +206,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Rotate constantly if shape is square or triangle
         if (shape_type > 0)
             transform.postRotate(rotation, pos.x + imgRadius, pos.y + imgRadius);
+        transform.preScale(pop_animation_scale, pop_animation_scale);
         RenderShapes(_canvas, transform);
         RenderHealth(_canvas);
     }

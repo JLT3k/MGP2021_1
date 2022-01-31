@@ -72,7 +72,7 @@ public class RenderTextEntity implements EntityBase{
         paint.setStrokeWidth(200);  // How thick the font is
         paint.setTypeface(myfont); // Use the font type that I loaded
         paint.setTextSize(70); // Font size.
-        _canvas.drawText("FPS: " + Math.round(fps), 30, 80, paint);  // For now, default number but u can use _view.getWidth/ ?
+        //_canvas.drawText("FPS: " + Math.round(fps), 30, 80, paint);
         //_canvas.drawText("Paused?: " + (GameSystem.Instance.GetIsPaused() ? "paused" : "not paused"), 30, 160, paint);
         // Draw points
         if (GameSystem.Instance.GetPoints() < 10)
@@ -81,10 +81,7 @@ public class RenderTextEntity implements EntityBase{
             _canvas.drawText("" + GameSystem.Instance.GetPoints(), 505, 100, paint);
 
         // Draw Highscore
-//        if (GameSystem.Instance.GetPoints() < 10)
-            _canvas.drawText("HighScore: " + GameSystem.Instance.GetIntFromSave("highScore"), 30, 180, paint);
-//        else
-//            _canvas.drawText("" + GameSystem.Instance.GetHighScore(), 505, 150, paint);
+            //_canvas.drawText("HighScore: " + GameSystem.Instance.GetIntFromSave("highScore"), 30, 180, paint);
     }
 
     @Override

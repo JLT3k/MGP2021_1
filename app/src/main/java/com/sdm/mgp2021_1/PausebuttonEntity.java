@@ -83,7 +83,6 @@ public class PausebuttonEntity implements EntityBase{
     public void Render(Canvas _canvas) {
         if (Paused == false)
             _canvas.drawBitmap(scaledbmpP, xPos - scaledbmpP.getWidth() * 0.5f, yPos - scaledbmpP.getHeight() * 0.5f, null);
-
         else
             _canvas.drawBitmap(scaledbmpUP, xPos - scaledbmpUP.getWidth() * 0.5f, yPos - scaledbmpUP.getHeight() * 0.5f, null);
     }

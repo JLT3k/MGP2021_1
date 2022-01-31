@@ -52,11 +52,13 @@ public class Ball implements EntityBase, Collidable, PhysicsObject {
 
     @Override
     public void Update(float _dt) {
+        // Pause ball if game paused
         if (GameSystem.Instance.GetIsPaused()) {
             timerStart = false;
             shot = false;
             return;
         }
+        // Move ball when shape moves finished
         for (int i = 0; i < 20; ++i) {
             if (TouchManager.Instance.HasTouch() && !shot && !move && !GameSystem.Instance.Shape[i].GetAnimation()) {
                 if (TouchManager.Instance.GetPosY() > 200) {

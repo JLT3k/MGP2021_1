@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class MainGameSceneState implements StateBase {
     private int Index = 0, prevIndex = 0, numberOfShapes = 0, shapeIncrement = 0, ballIncrement = 0, Spawned = 1, NoOfBalls = 1;
-    private boolean spawnExisting = false, turn = true;
+    private boolean spawnExisting = false, turn = true, start = true;
 
     @Override
     public String GetName() {
@@ -27,16 +27,20 @@ public class MainGameSceneState implements StateBase {
         PausetitleEntity.Create();
         QuitbuttonEntity.Create();
 
-        // Example to include another Renderview for Pause Button
-
+        // Set variables to default values upon entry
         GameSystem.Instance.ResetPoints();
         NoOfBalls = 1;
         Spawned = 1;
-        turn = true;
+        start = true;
+        turn = false;
+        Index = 0;
+        ballIncrement = 0;
+        // Reset object variables
         for (int i = 0; i < 5; ++i)
             GameSystem.Instance.ball[i].Reset();
         for (int i = 0; i < 20; ++i)
             GameSystem.Instance.Shape[i].SetIsDone(true);
+        // Set pause to false if true
         GameSystem.Instance.SetIsPaused(false);
     }
 
@@ -50,6 +54,7 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Render(Canvas _canvas) {
+        // Render pre defined objects
         EntityManager.Instance.Render(_canvas);
         for (int i = 0; i < NoOfBalls; ++i) {
             GameSystem.Instance.ball[i].Render(_canvas);
@@ -73,8 +78,8 @@ public class MainGameSceneState implements StateBase {
             GameSystem.Instance.Shape[i].Update(_dt);
         }
         EntityManager.Instance.Update(_dt);
-        spawnShapes();
 
+        spawnShapes();
         if (Spawned >= 20)
             Spawned = 20;
 
@@ -82,7 +87,7 @@ public class MainGameSceneState implements StateBase {
         if (GameSystem.Instance.ball[ballIncrement].GetPosY() > 2200) {
             ballIncrement++;
         }
-        if (ballIncrement == NoOfBalls) {
+        if (ballIncrement >= NoOfBalls) {
             for (int i = 0; i < NoOfBalls; ++i)
                 GameSystem.Instance.ball[i].Reset();
             ballIncrement = 0;
@@ -90,7 +95,7 @@ public class MainGameSceneState implements StateBase {
         }
 
         // Respawn and reuse destroyed shapes
-        for (int i = 0; i <= Index; ++i) {
+        for (int i = 0; i < Index; ++i) {
             if (GameSystem.Instance.Shape[i].IsDone()) {
                 Index = i;
                 spawnExisting = true;
@@ -113,11 +118,21 @@ public class MainGameSceneState implements StateBase {
 
     private void spawnShapes()
     {
+        // Set starting ball
+        if (start)
+        {
+            GameSystem.Instance.Shape[Index].Respawn();
+            GameSystem.Instance.Shape[Index].SetPosY(GameSystem.Instance.Shape[Index].GetPosY() - 200);
+            GameSystem.Instance.Shape[Index].SetAnimation(true);
+            Index = Spawned;
+            start = false;
+        }
         // Check if ball reached bottom of screen before spawning and moving new shape
         if (turn){
             // Set shape number spawn random
             if (shapeIncrement == 0)
                 numberOfShapes = new Random().nextInt(3) + 1;
+
             // Spawn 1 shape
             if (numberOfShapes == 1) {
                 GameSystem.Instance.Shape[Index].Respawn();
@@ -136,17 +151,15 @@ public class MainGameSceneState implements StateBase {
                         GameSystem.Instance.Shape[Index].SetPosX(GameSystem.Instance.Shape[prevIndex].GetPosX() - shape_dist);
                     else /*if (GameSystem.Instance.Shape[prevIndex].GetPosX() - 70 < 130)*/
                         GameSystem.Instance.Shape[Index].SetPosX(GameSystem.Instance.Shape[prevIndex].GetPosX() + shape_dist);
+                    shapeIncrement++;
                 }
                 if (!spawnExisting)
                     Spawned++;
-                if (shapeIncrement == 0) {
+                if (shapeIncrement == 0)
                     prevIndex = Index;
-                    shapeIncrement++;
-                }
-                else
-                    shapeIncrement = 3;
                 Index = Spawned;
                 spawnExisting = false;
+                shapeIncrement++;
             }
             // Spawn 3 shapes
             else if (numberOfShapes == 3){

@@ -171,6 +171,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
             }
         }
 
+        // Pop animation when shape gets hit
         if (pop_animation_scale > 1)
             pop_animation_scale -= _dt * 2;
 
@@ -206,6 +207,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         // Rotate constantly if shape is square or triangle
         if (shape_type > 0)
             transform.postRotate(rotation, pos.x + imgRadius, pos.y + imgRadius);
+        // Set scale according to pop animation
         transform.preScale(pop_animation_scale, pop_animation_scale);
         RenderShapes(_canvas, transform);
         RenderHealth(_canvas);
@@ -231,6 +233,7 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
         yPosPrev = ScreenHeight - 200;
         shape_type = new Random().nextInt(3);
         health = new Random().nextInt(GameSystem.Instance.GetPoints() + 1) + 1;
+        pop_animation_scale = 1;
     }
 
     public void RenderShapes(Canvas _canvas, Matrix transform)
@@ -328,6 +331,10 @@ public class ShapeEntity implements EntityBase, Collidable, PhysicsObject {
 
     public void SetPosX(float xPos) {
         pos.x = xPos;
+    }
+
+    public void SetPosY(float yPos) {
+        pos.y = yPos;
     }
 
     @Override

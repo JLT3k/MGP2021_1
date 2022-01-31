@@ -15,7 +15,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_gravityball"
-        android:label="MGP2021"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_gravityball_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MGP2021_1" >

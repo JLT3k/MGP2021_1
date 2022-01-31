@@ -50,6 +50,7 @@ public class GameSystem {
 
     public void Init(SurfaceView _view)
     {
+        // Init pre defined ball and shape objects
         for (int i = 0; i < 5; ++i) {
             ball[i].Init(_view);
         }

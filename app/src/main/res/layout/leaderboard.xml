@@ -23,29 +23,29 @@
 
     <TextView
         android:id="@+id/text_name1"
-        android:layout_width="211dp"
-        android:layout_height="59dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="168dp"
-        android:layout_marginRight="141dp"
-        android:text="Best Score"
-        android:textAlignment="textStart"
-        android:textColor="#AAAAAA"
-        android:textSize="30dp" />
-
-    <TextView
-        android:id="@+id/text_score1"
-        android:layout_width="89dp"
+        android:layout_width="210dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="200dp"
-        android:layout_marginRight="52dp"
+        android:layout_marginRight="130dp"
+        android:text="Best Score"
+        android:textAlignment="textStart"
+        android:textColor="#AAAAAA"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/text_score1"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="200dp"
+        android:layout_marginRight="50dp"
         android:text="00"
         android:textAlignment="center"
         android:textColor="#AAAAAA"
-        android:textSize="40dp" />
+        android:textSize="25dp" />
 
     <TextView
         android:id="@+id/text_name2"
@@ -58,16 +58,16 @@
         android:text="2nd Best"
         android:textAlignment="textStart"
         android:textColor="#AAAAAA"
-        android:textSize="30dp" />
+        android:textSize="25dp" />
 
     <TextView
         android:id="@+id/text_score2"
-        android:layout_width="89dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="255dp"
-        android:layout_marginRight="52dp"
+        android:layout_marginRight="50dp"
         android:text="00"
         android:textAlignment="center"
         android:textColor="#AAAAAA"

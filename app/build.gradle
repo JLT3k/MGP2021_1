@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\kiddr\\keystore0.jks')
+            storePassword 'Revolver360'
+            keyAlias 'key0'
+            keyPassword 'Revolver360'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
@@ -20,6 +28,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            multiDexEnabled true
         }
     }
     compileOptions {

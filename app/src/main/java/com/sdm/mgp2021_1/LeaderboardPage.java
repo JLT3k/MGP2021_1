@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 
-// Created by TanSiewLan2021
+// Created by Ho Junliang
 
 public class LeaderboardPage extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
@@ -25,12 +25,7 @@ public class LeaderboardPage extends Activity implements OnClickListener, StateB
 
     private  TextView[] text_name = new TextView[6];
     private  TextView[] text_score = new TextView[6];
-//    private TextView text_name1, text_score1
-//            , text_name2, text_score2
-//            , text_name3, text_score3
-//            , text_name4, text_score4
-//            , text_name5, text_score5
-//            , text_name6, text_score6;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
